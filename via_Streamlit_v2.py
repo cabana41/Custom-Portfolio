@@ -205,6 +205,8 @@ def portfolio_page():
         .background_gradient(subset=["비중 (%)"], cmap="coolwarm")\
         .set_properties(**{"text-align": "center", "font-size": "14px"})
 
+    st.dataframe(styled_df)
+
     # 파이 차트
     st.subheader("📊 포트폴리오 비율 시각화")
     fig, ax = plt.subplots(figsize=(4, 4), dpi=150)
