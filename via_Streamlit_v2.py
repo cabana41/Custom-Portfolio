@@ -183,16 +183,18 @@ def portfolio_page():
 
     # 데이터 테이블 출력
     st.subheader("📊 포트폴리오 구성표")
+    # 포트폴리오 데이터프레임 생성 및 인덱스 제거
     portfolio_df = pd.DataFrame.from_dict(portfolio_with_desc, orient="index")
     portfolio_df.reset_index(inplace=True)
     portfolio_df.columns = ["자산", "비중 (%)", "설명"]
     
+    # 스타일 적용 (인덱스 제거 없이)
     styled_df = portfolio_df.style\
         .format({"비중 (%)": "{:.2f}"})\
         .background_gradient(subset=["비중 (%)"], cmap="coolwarm")\
-        .set_properties(**{"text-align": "center", "font-size": "14px"})\
-        .hide_index()
-
+        .set_properties(**{"text-align": "center", "font-size": "14px"})
+    
+    # Streamlit 테이블로 출력
     st.dataframe(styled_df, use_container_width=True)
 
     # 요약 정보 추가
