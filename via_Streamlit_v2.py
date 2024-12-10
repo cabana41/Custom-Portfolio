@@ -136,8 +136,23 @@ def survey_page():
         if st.button("포트폴리오 보기 🚀"):
             go_to_page("portfolio")
 
-# 포트폴리오 계산 함수
-def get_portfolio(risk, horizon):
+def get_etf_description():
+    """ETF 설명을 반환합니다."""
+    return {
+        "SPY": "S&P 500 지수를 추종하는 ETF로, 미국 대형주에 투자. 안정성과 성장이 혼합된 포트폴리오의 기본 구성 요소로 적합.",
+        "GLD": "금 가격에 직접 투자하는 ETF. 포트폴리오의 헤지(위험 대비) 및 가치 저장 수단으로 자주 사용.",
+        "VNQ": "미국 리츠(REITs, 부동산 투자 신탁)에 투자. 부동산 시장의 수익에 접근할 수 있는 방법 제공.",
+        "PAVE": "미국 기반 인프라 관련 기업에 투자하는 ETF. 장기적인 경제 성장 테마에 적합.",
+        "SPTL": "미국 장기 국채를 추종하는 ETF. 안정적인 소득 및 변동성 완화에 도움.",
+        "SCHD": "미국 고배당 성장 주식에 투자. 안정적 배당 수익과 성장을 목표로 설계.",
+        "SPYD": "고배당 주식에 투자하는 ETF로, 수익률 중심의 투자자에게 적합.",
+        "SKYY": "클라우드 컴퓨팅 관련 기업에 투자하는 ETF. 기술 성장 테마에 적합.",
+        "SMH": "반도체 산업 관련 주식에 집중 투자하는 ETF. 기술 혁신의 중심 산업에 투자.",
+        "VWO": "신흥 시장(EM) 주식에 투자. 높은 성장 가능성을 가진 국가에 접근."
+    }
+
+def get_portfolio_with_description(risk, horizon):
+    """포트폴리오와 ETF 설명을 함께 반환합니다."""
     portfolios = {
         ("안정추구형", "6개월"): {"Equity": 10, "Fixed Income": 90},
         ("안정추구형", "2년"): {"SPY": 33, "GLD": 42, "VNQ": 0.3, "PAVE": 5.5, "SPTL": 19},
@@ -146,7 +161,17 @@ def get_portfolio(risk, horizon):
         ("공격투자형", "6개월"): {"Equity": 70, "Fixed Income": 30},
         ("공격투자형", "2년"): {"SPY": 81, "SKYY": 0.6, "SMH": 4.9, "VWO": 4.7, "SPTL": 8.6},
     }
-    return portfolios.get((risk, horizon), {"Equity": 50, "Fixed Income": 50})
+    portfolio = portfolios.get((risk, horizon), {"Equity": 50, "Fixed Income": 50})
+
+    # ETF 설명 추가
+    etf_descriptions = get_etf_description()
+    portfolio_with_desc = {}
+
+    for asset, weight in portfolio.items():
+        description = etf_descriptions.get(asset, "ETF가 아닌 일반 자산군입니다.")
+        portfolio_with_desc[asset] = {"비중": weight, "설명": description}
+
+    return portfolio_with_desc
 
 # 포트폴리오 화면
 def portfolio_page():
