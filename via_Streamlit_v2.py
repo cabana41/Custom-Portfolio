@@ -177,27 +177,38 @@ def get_portfolio(risk, horizon):
 def portfolio_page():
     st.title("📈 추천 포트폴리오")
 
+    # 리스크 및 기간 확인
     risk = map_risk_level(st.session_state.user_risk)
     horizon = st.session_state.user_horizon
-    portfolio, portfolio_with_desc = get_portfolio(risk, horizon)
 
-    # 데이터 테이블 출력
-    st.subheader("📊 포트폴리오 구성표")
-    # 포트폴리오 데이터프레임 생성 및 인덱스 제거
+    # 값 검증
+    if not risk or risk == "미선택":
+        st.error("투자 성향이 설정되지 않았습니다. 설문조사를 완료하세요.")
+        return
+    if not horizon:
+        st.error("투자 기간이 설정되지 않았습니다. 설문조사를 완료하세요.")
+        return
+
+    # 포트폴리오 데이터 생성
+    portfolio, portfolio_with_desc = get_portfolio(risk, horizon)
+    if not portfolio_with_desc:
+        st.error("포트폴리오 데이터를 불러올 수 없습니다. 입력값을 확인하세요.")
+        return
+
+    # 데이터프레임 생성
     portfolio_df = pd.DataFrame.from_dict(portfolio_with_desc, orient="index")
     portfolio_df.reset_index(inplace=True)
     portfolio_df.columns = ["자산", "비중 (%)", "설명"]
-    
-    # 스타일 적용 (인덱스 제거 없이)
+
+    # 스타일링 및 테이블 출력
     styled_df = portfolio_df.style\
         .format({"비중 (%)": "{:.2f}"})\
         .background_gradient(subset=["비중 (%)"], cmap="coolwarm")\
         .set_properties(**{"text-align": "center", "font-size": "14px"})
-    
-    # Streamlit 테이블로 출력
+
     st.dataframe(styled_df, use_container_width=True)
 
-    # 요약 정보 추가
+    # 요약 박스
     st.markdown(
         """
         <style>
@@ -213,11 +224,11 @@ def portfolio_page():
             <strong>선택한 투자 성향:</strong> <span style="color: #2c7fb8;">{}</span><br>
             <strong>선택한 투자 기간:</strong> <span style="color: #2c7fb8;">{}</span>
         </div>
-        """.format(risk, horizon),
+        """.format(risk or "미설정", horizon or "미설정"),
         unsafe_allow_html=True
     )
 
-    # 파이 차트
+    # 파이 차트 생성
     st.subheader("📊 포트폴리오 비율 시각화")
     fig, ax = plt.subplots(figsize=(6, 6), dpi=150)
     ax.pie(
@@ -230,6 +241,7 @@ def portfolio_page():
     ax.set_title("Allocation", fontsize=14)
     st.pyplot(fig)
 
+    # 돌아가기 버튼
     if st.button("🔙 설문조사로 돌아가기"):
         go_to_page("survey")
         
