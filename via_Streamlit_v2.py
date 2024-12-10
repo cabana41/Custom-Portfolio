@@ -207,11 +207,11 @@ def portfolio_page():
 
     st.dataframe(styled_df, use_container_width=True)
 
-    # 파이 차트 생성
+    # 파이 차트
     st.subheader("📊 포트폴리오 비율 시각화")
-    fig, ax = plt.subplots(figsize=(6, 6), dpi=150)
+    fig, ax = plt.subplots(figsize=(4, 4), dpi=150)
     ax.pie(
-        [v["비중"] for v in portfolio.values()],
+        portfolio.values(),
         labels=portfolio.keys(),
         autopct="%1.1f%%",
         startangle=90,
