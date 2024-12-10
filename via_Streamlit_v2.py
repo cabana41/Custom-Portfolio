@@ -205,7 +205,8 @@ def portfolio_page():
         .background_gradient(subset=["비중 (%)"], cmap="coolwarm")\
         .set_properties(**{"text-align": "center", "font-size": "14px"})
 
-    st.dataframe(styled_df, use_container_width=True)
+    # CSS 스타일 적용하여 테이블 너비 조절
+    st.dataframe(styled_df.style.set_properties(**{'width': '100%'}), use_container_width=True)
 
     # 파이 차트
     st.subheader("📊 포트폴리오 비율 시각화")
