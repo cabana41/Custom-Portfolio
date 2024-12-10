@@ -171,7 +171,7 @@ def get_portfolio(risk, horizon):
         description = etf_descriptions.get(asset, "ETF가 아닌 일반 자산군입니다.")
         portfolio_with_desc[asset] = {"비중": weight, "설명": description}
 
-    return portfolio,portfolio_with_desc
+    return portfolio, portfolio_with_desc
 
 # 포트폴리오 화면
 def portfolio_page():
@@ -179,11 +179,11 @@ def portfolio_page():
 
     risk = map_risk_level(st.session_state.user_risk)
     horizon = st.session_state.user_horizon
-    portfolio = get_portfolio(risk, horizon)
+    portfolio, portfolio_with_desc = get_portfolio(risk, horizon)
 
     # 데이터 테이블 출력
     st.subheader("📊 포트폴리오 구성표")
-    portfolio_df = pd.DataFrame.from_dict(portfolio[1], orient="index")
+    portfolio_df = pd.DataFrame.from_dict(portfolio_with_desc, orient="index")
     portfolio_df.reset_index(inplace=True)
     portfolio_df.columns = ["자산", "비중 (%)", "설명"]
     
@@ -219,8 +219,8 @@ def portfolio_page():
     st.subheader("📊 포트폴리오 비율 시각화")
     fig, ax = plt.subplots(figsize=(6, 6), dpi=150)
     ax.pie(
-        [v["비중"] for v in portfolio[0].values()],
-        labels=portfolio[0].keys(),
+        [v["비중"] for v in portfolio.values()],
+        labels=portfolio.keys(),
         autopct="%1.1f%%",
         startangle=90,
         colors=cm.Paired.colors,
