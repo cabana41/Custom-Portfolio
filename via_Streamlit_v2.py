@@ -140,14 +140,13 @@ def survey_page():
 def get_portfolio(risk, horizon):
     portfolios = {
         ("안정추구형", "6개월"): {"Equity": 10, "Fixed Income": 90},
-        ("안정추구형", "2년"): {"Equity": 20, "Fixed Income": 80},
+        ("안정추구형", "2년"): {"SPY": 33, "GLD": 42, "VNQ": 0.3, "PAVE": 5.5, "SPTL": 19},
         ("위험중립형", "6개월"): {"Equity": 50, "Fixed Income": 50},
-        ("위험중립형", "2년"): {"Equity": 60, "Fixed Income": 40},
+        ("위험중립형", "2년"): {"SPY": 33, "SCHD": 33, "SPYD": 18, "SPTL": 16},
         ("공격투자형", "6개월"): {"Equity": 70, "Fixed Income": 30},
-        ("공격투자형", "2년"): {"Equity": 80, "Fixed Income": 20},
+        ("공격투자형", "2년"): {"SPY": 81, "SKYY": 0.6, "SMH": 4.9, "VWO": 4.7, "SPTL": 8.6},
     }
     return portfolios.get((risk, horizon), {"Equity": 50, "Fixed Income": 50})
-
 
 # 포트폴리오 화면
 def portfolio_page():
