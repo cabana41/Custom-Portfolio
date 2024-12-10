@@ -207,26 +207,6 @@ def portfolio_page():
 
     st.dataframe(styled_df, use_container_width=True)
 
-    # 요약 박스
-    st.markdown(
-        """
-        <style>
-        .summary-box {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        </style>
-        <div class="summary-box">
-            <strong>선택한 투자 성향:</strong> <span style="color: #2c7fb8;">{}</span><br>
-            <strong>선택한 투자 기간:</strong> <span style="color: #2c7fb8;">{}</span>
-        </div>
-        """.format(risk or "미설정", horizon or "미설정"),
-        unsafe_allow_html=True
-    )
-
     # 파이 차트 생성
     st.subheader("📊 포트폴리오 비율 시각화")
     fig, ax = plt.subplots(figsize=(6, 6), dpi=150)
