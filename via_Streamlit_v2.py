@@ -230,3 +230,9 @@ def portfolio_page():
 
     if st.button("🔙 설문조사로 돌아가기"):
         go_to_page("survey")
+        
+# 화면 렌더링
+if st.session_state.page == "survey":
+    survey_page()
+elif st.session_state.page == "portfolio":
+    portfolio_page()
