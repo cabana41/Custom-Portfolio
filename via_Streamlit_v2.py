@@ -181,13 +181,12 @@ def portfolio_page():
     risk = map_risk_level(st.session_state.user_risk)
     horizon = st.session_state.user_horizon
 
-    # 값 검증
-    if not risk or risk == "미선택":
-        st.error("투자 성향이 설정되지 않았습니다. 설문조사를 완료하세요.")
-        return
-    if not horizon:
-        st.error("투자 기간이 설정되지 않았습니다. 설문조사를 완료하세요.")
-        return
+    # risk와 horizon 변수에 기본값 설정
+    risk = risk or "미설정"
+    horizon = horizon or "미설정"
+
+    # f-string을 사용하여 문자열 포맷팅
+    print(f"선택한 투자 위험은 {risk}이고, 투자 기간은 {horizon}입니다.")
 
     # 포트폴리오 데이터 생성
     portfolio, portfolio_with_desc = get_portfolio(risk, horizon)
