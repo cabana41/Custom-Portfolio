@@ -164,7 +164,7 @@ def get_portfolio(risk, horizon):
         ("위험중립형", "6개월"): {"SPY": 40, "IEF": 35, "HYG": 10, "QQQ": 10, "IAU": 5},
         ("위험중립형", "2년"): {"SPY": 33, "SCHD": 33, "SPYD": 18, "SPTL": 16},
         ("공격투자형", "6개월"): {"SPY": 25, "IEF": 10, "HYG": 20, "QQQ": 40, "SMH": 5},
-        ("공격투자형", "2년"): {"SPY": 81, "SKYY": 0.6, "SMH": 4.9, "VWO": 4.7, "SPTL": 8.6},
+        ("공격투자형", "2년"): {"SPY": 81, "SKYY": 0.6, "SMH": 4.9, "VWO": 4.7, "SPTL": 8.6}
     }
     portfolio = portfolios.get((risk, horizon), {"Equity": 50, "Fixed Income": 50})
 
