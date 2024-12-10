@@ -198,7 +198,7 @@ def portfolio_page():
     portfolio_df = pd.DataFrame.from_dict(portfolio_with_desc, orient="index")
     portfolio_df.reset_index(inplace=True)
     portfolio_df.columns = ["자산", "비중 (%)", "설명"]
-
+    
     # 스타일링 및 테이블 출력
     styled_df = portfolio_df.style\
         .format({"비중 (%)": "{:.2f}"})\
