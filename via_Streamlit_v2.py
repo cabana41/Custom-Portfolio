@@ -151,7 +151,7 @@ def get_etf_description():
         "VWO": "신흥 시장(EM) 주식에 투자. 높은 성장 가능성을 가진 국가에 접근."
     }
 
-def get_portfolio_with_description(risk, horizon):
+def get_portfolio(risk, horizon):
     """포트폴리오와 ETF 설명을 함께 반환합니다."""
     portfolios = {
         ("안정추구형", "6개월"): {"Equity": 10, "Fixed Income": 90},
