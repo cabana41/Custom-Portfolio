@@ -177,19 +177,49 @@ def get_portfolio(risk, horizon):
 def portfolio_page():
     st.title("📈 추천 포트폴리오")
 
-    # 데이터 생성
-    portfolio = get_portfolio(map_risk_level(st.session_state.user_risk), st.session_state.user_horizon)
-    portfolio_df = pd.DataFrame(portfolio[1].items(), columns=["자산", "비율 (%)"])
+    risk = map_risk_level(st.session_state.user_risk)
+    horizon = st.session_state.user_horizon
+    portfolio = get_portfolio(risk, horizon)
 
-    # 데이터 테이블
+    # 데이터 테이블 출력
     st.subheader("📊 포트폴리오 구성표")
-    st.dataframe(portfolio_df.style.background_gradient(cmap="coolwarm"), use_container_width=True)
+    portfolio_df = pd.DataFrame.from_dict(portfolio[1], orient="index")
+    portfolio_df.reset_index(inplace=True)
+    portfolio_df.columns = ["자산", "비중 (%)", "설명"]
+    
+    styled_df = portfolio_df.style\
+        .format({"비중 (%)": "{:.2f}"})\
+        .background_gradient(subset=["비중 (%)"], cmap="coolwarm")\
+        .set_properties(**{"text-align": "center", "font-size": "14px"})\
+        .hide_index()
+
+    st.dataframe(styled_df, use_container_width=True)
+
+    # 요약 정보 추가
+    st.markdown(
+        """
+        <style>
+        .summary-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        </style>
+        <div class="summary-box">
+            <strong>선택한 투자 성향:</strong> <span style="color: #2c7fb8;">{}</span><br>
+            <strong>선택한 투자 기간:</strong> <span style="color: #2c7fb8;">{}</span>
+        </div>
+        """.format(risk, horizon),
+        unsafe_allow_html=True
+    )
 
     # 파이 차트
     st.subheader("📊 포트폴리오 비율 시각화")
-    fig, ax = plt.subplots(figsize=(4, 4), dpi=150)
+    fig, ax = plt.subplots(figsize=(6, 6), dpi=150)
     ax.pie(
-        portfolio[0].values(),
+        [v["비중"] for v in portfolio[0].values()],
         labels=portfolio[0].keys(),
         autopct="%1.1f%%",
         startangle=90,
@@ -198,12 +228,5 @@ def portfolio_page():
     ax.set_title("Allocation", fontsize=14)
     st.pyplot(fig)
 
-    # 돌아가기 버튼
     if st.button("🔙 설문조사로 돌아가기"):
         go_to_page("survey")
-
-# 화면 렌더링
-if st.session_state.page == "survey":
-    survey_page()
-elif st.session_state.page == "portfolio":
-    portfolio_page()
