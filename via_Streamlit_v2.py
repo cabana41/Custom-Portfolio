@@ -202,9 +202,6 @@ def get_portfolio(risk, horizon):
 # 포트폴리오 페이지
 def portfolio_page():
     st.title("📈 추천 포트폴리오")
-    
-    # 프로파일 데이터
-    asset_data = load_asset_data()
 
     # 사용자 입력값
     risk = map_risk_level(st.session_state.user_risk)
@@ -213,10 +210,17 @@ def portfolio_page():
     # 포트폴리오 데이터
     portfolio = get_portfolio(risk, horizon)
 
+    # 백테스트 데이터 로드
+    backtest_data = load_backtest_data()
+    if backtest_data.empty:
+        st.error("백테스트 데이터를 불러올 수 없습니다.")
+        return
+
     # 기대수익률 및 변동성 매핑
+    asset_data = backtest_data.set_index("Asset")  # Asset 열을 인덱스로 설정
     expected_returns = {}
     volatilities = {}
-    
+
     for asset in portfolio:
         if asset in asset_data.index:
             expected_returns[asset] = asset_data.loc[asset, "ExpectedReturn"]
@@ -262,10 +266,6 @@ def portfolio_page():
     # 다음 페이지로 이동
     if st.button("📄 백테스트 결과 보기"):
         go_to_page("backtest")
-
-    # 돌아가기 버튼
-    if st.button("🔙 설문조사로 돌아가기"):
-        go_to_page("survey")
         
 # 백테스트 결과 페이지
 def backtest_page():
