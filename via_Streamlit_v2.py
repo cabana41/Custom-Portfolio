@@ -311,7 +311,7 @@ def backtest_page():
 
     # 최종 수익률 및 MDD 강조
     st.markdown(f"""
-    ### 최종 누적 수익률: **{cumulative_return:.2%}**
+    ### YTD 수익률: **{cumulative_return:.2%}**
     ### 최대 손실 (MDD): **{max_drawdown:.2%}**
     """)
 
