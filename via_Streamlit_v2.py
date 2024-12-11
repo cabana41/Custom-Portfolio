@@ -29,8 +29,12 @@ def load_backtest_data():
     if not os.path.exists(file_path):
         st.error("백테스트 결과 파일이 존재하지 않습니다.")
         return pd.DataFrame()  # 빈 데이터프레임 반환
-    data = pd.read_excel(file_path)
-    return data
+    backtest_data = pd.read_excel(file_path, sheet_name="backtest")
+    asset_data = pd.read_excel(file_path, sheet_name="asset")
+    return backtest_data, asset_data
+
+# 백테스트 데이터 로드
+backtest_data, asset_data = load_backtest_data()
 
 # 설문조사 화면
 def survey_page():
@@ -201,14 +205,8 @@ def portfolio_page():
     # 포트폴리오 데이터
     portfolio = get_portfolio(risk, horizon)
 
-    # 백테스트 데이터 로드
-    backtest_data = load_backtest_data()
-    if backtest_data.empty:
-        st.error("백테스트 데이터를 불러올 수 없습니다.")
-        return
-
     # 기대수익률 및 변동성 매핑
-    asset_data = backtest_data.set_index("Asset")  # Asset 열을 인덱스로 설정
+    asset_data = asset_data.set_index("Asset")  # Asset 열을 인덱스로 설정
     expected_returns = {asset: asset_data.loc[asset, "ExpectedReturn"] for asset in portfolio}
     volatilities = {asset: asset_data.loc[asset, "Volatility"] for asset in portfolio}
 
@@ -256,12 +254,6 @@ def portfolio_page():
 # 백테스트 결과 페이지
 def backtest_page():
     st.title("📉 백테스트 결과")
-
-    # 데이터 로드
-    backtest_data = load_backtest_data()
-    if backtest_data.empty:
-        st.error("백테스트 데이터를 불러올 수 없습니다.")
-        return
 
     # 누적 수익률 그래프
     st.write("### 누적 수익률")
