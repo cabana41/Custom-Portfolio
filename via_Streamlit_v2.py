@@ -43,6 +43,7 @@ def load_backtest_data(risk, horizon):
         st.error("백테스트 결과 파일이 존재하지 않습니다.")
         return pd.DataFrame()  # 빈 데이터프레임 반환
     backtest_data = pd.read_csv(file_path)
+    backtest_data["Date"] = pd.to_datetime(backtest_data["Date"])
     return backtest_data
 
 def load_asset_data(horizon):
@@ -310,7 +311,7 @@ def backtest_page():
     st.write("### MDD (Maximum Drawdown)")
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.plot(backtest_data["Date"], backtest_data["MDD"], label="MDD (Maximum Drawdown)", color="red")
-    ax.fill_between(backtest_data["Date"], backtest_data["MDD"], color="red", alpha=0.2, label="Drawdown 영역")
+    ax.fill_between(backtest_data["Date"], backtest_data["MDD"], color="red", alpha=0.2, label="Drawdown Area")
     ax.set_title("MDD (Maximum Drawdown)", fontsize=16)
     ax.set_xlabel("Date", fontsize=12)
     ax.set_ylabel("Drawdown", fontsize=12)
