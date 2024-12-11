@@ -41,8 +41,9 @@ def load_asset_data():
     asset_data = pd.read_csv(file_path)
     return backtest_data, asset_data
 
-# 백테스트 데이터 로드
-backtest_data, asset_data = load_backtest_data()
+# 데이터 로드
+backtest_data = load_backtest_data()
+asset_data = load_asset_data()
 
 # 설문조사 화면
 def survey_page():
