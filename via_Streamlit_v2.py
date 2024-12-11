@@ -294,11 +294,28 @@ def backtest_page():
     # 사용자 입력값
     risk = map_risk_level(st.session_state.user_risk)
     horizon = st.session_state.user_horizon    
-    
-    # 백테스트 데이터
-    backtest_data = load_backtest_data(risk, horizon)
 
-    # 누적 수익률 그래프
+    # 백테스트 데이터 로드
+    backtest_data = load_backtest_data(risk, horizon)
+    if backtest_data.empty:
+        st.error("백테스트 데이터를 불러올 수 없습니다.")
+        return
+
+    # 최종 수익률 계산
+    initial_nav = backtest_data["NAV"].iloc[0]
+    final_nav = backtest_data["NAV"].iloc[-1]
+    cumulative_return = (final_nav - initial_nav) / initial_nav
+
+    # MDD 계산
+    max_drawdown = backtest_data["MDD"].min()
+
+    # 최종 수익률 및 MDD 강조
+    st.markdown(f"""
+    ### 최종 누적 수익률: **{cumulative_return:.2%}**
+    ### 최대 손실 (MDD): **{max_drawdown:.2%}**
+    """)
+
+    # 누적 NAV 그래프
     st.write("### 누적 NAV")
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.plot(backtest_data["Date"], backtest_data["NAV"], label="Cumulative NAV", color="blue")
