@@ -25,7 +25,7 @@ def map_risk_level(user_risk):
 @st.cache
 def load_backtest_data():
     """백테스트 데이터를 로드합니다."""
-    file_path = "./portfolio_backtest_result.xlsx"
+    file_path = "portfolio_backtest_result.xlsx"
     if not os.path.exists(file_path):
         st.error("백테스트 결과 파일이 존재하지 않습니다.")
         return pd.DataFrame()  # 빈 데이터프레임 반환
