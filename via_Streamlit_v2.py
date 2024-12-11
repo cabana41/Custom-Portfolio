@@ -221,11 +221,12 @@ def portfolio_page():
     expected_returns = {}
     volatilities = {}
 
-    for asset in portfolio:
+    for asset, weight in portfolio.items():
         if asset in asset_data.index:
             expected_returns[asset] = asset_data.loc[asset, "ExpectedReturn"]
             volatilities[asset] = asset_data.loc[asset, "Volatility"]
         else:
+            # Handle the case where asset is not in asset_data.index
             st.warning(f"Asset 데이터에 {asset} 정보가 없습니다.")
             expected_returns[asset] = 0  # 기본값 설정
             volatilities[asset] = 0  # 기본값 설정
