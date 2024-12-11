@@ -62,6 +62,44 @@ def survey_page():
                 st.session_state.user_horizon)
         )
 
+# 백테스트 데이터 로드 함수
+@st.cache
+def load_backtest_data():
+    """CSV에서 백테스트 데이터를 로드합니다."""
+    data = pd.read_csv("C:/Users/이승기/Desktop/DATA/Python_project/portfolio_backtest_result.csv")  # CSV 경로
+    data["Date"] = pd.to_datetime(data["Date"])  # 날짜 포맷 변경
+    return data
+
+# 백테스트 결과 시각화 함수
+def display_backtest_results():
+    st.subheader("📈 백테스트 결과")
+
+    # 데이터 로드
+    backtest_data = load_backtest_data()
+
+    # 누적 수익률 그래프
+    st.write("### 누적 NAV")
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(
+        backtest_data["Date"], backtest_data["Cumulative"], 
+        label="누적 NAV", color="blue", linewidth=2
+    )
+    ax.set_title("누적 NAV", fontsize=16)
+    ax.set_xlabel("날짜", fontsize=12)
+    ax.set_ylabel("NAV (%)", fontsize=12)
+    ax.grid(True, linestyle='--', alpha=0.7)
+    ax.legend(fontsize=12)
+    st.pyplot(fig)
+
+    # MDD 표시
+    st.write("### 최대 손실 (MDD)")
+    mdd = backtest_data["Drawdown"].min()
+    st.metric("최대 손실 (MDD)", f"{mdd:.2%}")
+
+    # 데이터 테이블
+    st.write("### 상세 데이터")
+    st.dataframe(backtest_data)
+    
     # 투자 성향 계산 함수
     def calculate_investment_type(user_goal, user_experience, user_market, user_risk):
         score = 0
@@ -225,6 +263,9 @@ def portfolio_page():
     ax.set_title("Allocation", fontsize=14)
     st.pyplot(fig)
 
+    # 백테스트 결과 표시
+    display_backtest_results()
+    
     # 돌아가기 버튼
     if st.button("🔙 설문조사로 돌아가기"):
         go_to_page("survey")
