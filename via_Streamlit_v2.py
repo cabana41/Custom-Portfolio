@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 from matplotlib import cm
 
 # 초기 화면 설정
@@ -19,6 +20,17 @@ def map_risk_level(user_risk):
         "높은 리스크도 수용 가능": "공격투자형",
     }
     return mapping.get(user_risk, "미선택")  # 기본값은 '미선택'
+
+# 백테스트 데이터 로드
+@st.cache
+def load_backtest_data():
+    """백테스트 데이터를 로드합니다."""
+    file_path = "./portfolio_backtest_result.xlsx"
+    if not os.path.exists(file_path):
+        st.error("백테스트 결과 파일이 존재하지 않습니다.")
+        return pd.DataFrame()  # 빈 데이터프레임 반환
+    data = pd.read_excel(file_path)
+    return data
 
 # 설문조사 화면
 def survey_page():
@@ -136,61 +148,6 @@ def survey_page():
         if st.button("포트폴리오 보기 🚀"):
             go_to_page("portfolio")
 
-# 백테스트 데이터 로드 함수
-@st.cache_data
-def load_backtest_data():
-    """CSV에서 백테스트 데이터를 로드합니다."""
-    data = pd.read_csv("portfolio_backtest_result.csv")  # CSV 경로
-    data["Date"] = pd.to_datetime(data["Date"])  # 날짜 포맷 변경
-    return data
-
-# 백테스트 결과 시각화 함수
-def display_backtest_results():
-    st.subheader("📈 백테스트 결과")
-
-    # 데이터 로드
-    backtest_data = load_backtest_data()
-
-    # 누적 수익률 그래프
-    st.write("### 누적 NAV")
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(
-        backtest_data["Date"], backtest_data["Cumulative"], 
-        label="Cumulative NAV", color="blue", linewidth=2
-    )
-    ax.set_title("Cumulative NAV", fontsize=16)
-    ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("NAV (%)", fontsize=12)
-    ax.grid(True, linestyle='--', alpha=0.7)
-    ax.legend(fontsize=12)
-    st.pyplot(fig)
-
-    # MDD 그래프
-    st.write("### MDD (Maximum Drawdown)")
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(
-        backtest_data["Date"], backtest_data["MDD"], 
-        label="MDD", color="red", linewidth=2
-    )
-    ax.fill_between(
-        backtest_data["Date"], backtest_data["MDD"], 
-        color="red", alpha=0.2, label="Drawdown Area"
-    )
-    ax.set_title("MDD (Maximum Drawdown)", fontsize=16)
-    ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("Drawdown (%)", fontsize=12)
-    ax.grid(True, linestyle='--', alpha=0.7)
-    ax.legend(fontsize=12)
-    st.pyplot(fig)
-
-    # 최대 낙폭 (MDD) 계산 및 출력
-    mdd = backtest_data["MDD"].min()
-    st.metric("최대 손실 (MDD)", f"{mdd:.2%}")
-
-    # 데이터 테이블
-    st.write("### 상세 데이터")
-    st.dataframe(backtest_data)
-
 def get_etf_description():
     """ETF 설명을 반환합니다."""
     return {
@@ -233,62 +190,108 @@ def get_portfolio(risk, horizon):
 
     return portfolio, portfolio_with_desc
 
-# 포트폴리오 화면
+# 포트폴리오 페이지
 def portfolio_page():
     st.title("📈 추천 포트폴리오")
 
-    # 리스크 및 기간 확인
+    # 사용자 입력값
     risk = map_risk_level(st.session_state.user_risk)
     horizon = st.session_state.user_horizon
 
-    # risk와 horizon 변수에 기본값 설정
-    risk = risk or "미설정"
-    horizon = horizon or "미설정"
+    # 포트폴리오 데이터
+    portfolio = get_portfolio(risk, horizon)
 
-    # f-string을 사용하여 문자열 포맷팅
-    print(f"선택한 투자 위험은 {risk}이고, 투자 기간은 {horizon}입니다.")
-
-    # 포트폴리오 데이터 생성
-    portfolio, portfolio_with_desc = get_portfolio(risk, horizon)
-    if not portfolio_with_desc:
-        st.error("포트폴리오 데이터를 불러올 수 없습니다. 입력값을 확인하세요.")
+    # 백테스트 데이터 로드
+    backtest_data = load_backtest_data()
+    if backtest_data.empty:
+        st.error("백테스트 데이터를 불러올 수 없습니다.")
         return
 
-    # 데이터프레임 생성
-    portfolio_df = pd.DataFrame.from_dict(portfolio_with_desc, orient="index")
-    portfolio_df.reset_index(inplace=True)
-    portfolio_df.columns = ["자산", "비중 (%)", "설명"]
-    
-    # 스타일링 및 테이블 출력
-    styled_df = portfolio_df.style\
-        .format({"비중 (%)": "{:.2f}"})\
-        .background_gradient(subset=["비중 (%)"], cmap="coolwarm")\
-        .set_properties(**{"text-align": "center", "font-size": "14px"})
+    # 기대수익률 및 변동성 매핑
+    asset_data = backtest_data.set_index("Asset")  # Asset 열을 인덱스로 설정
+    expected_returns = {asset: asset_data.loc[asset, "ExpectedReturn"] for asset in portfolio}
+    volatilities = {asset: asset_data.loc[asset, "Volatility"] for asset in portfolio}
 
-    st.dataframe(styled_df)
+    # 포트폴리오 기대수익률 및 변동성 계산
+    portfolio_return = sum(weight * expected_returns[asset] / 100 for asset, weight in portfolio.items())
+    portfolio_volatility = sum(weight * volatilities[asset] / 100 for asset, weight in portfolio.items())
+
+    # 포트폴리오 메타 정보 강조
+    st.markdown(f"""
+    ### 포트폴리오 기대수익률: **{portfolio_return:.2%}**
+    ### 포트폴리오 변동성: **{portfolio_volatility:.2%}**
+    """)
+
+    # 포트폴리오 테이블 생성
+    portfolio_data = {
+        "자산": list(portfolio.keys()),
+        "비중 (%)": list(portfolio.values()),
+        "기대수익률 (%)": [expected_returns[asset] * 100 for asset in portfolio],
+        "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio]
+    }
+    portfolio_df = pd.DataFrame(portfolio_data)
+    st.dataframe(portfolio_df)
 
     # 파이 차트
-    st.subheader("📊 포트폴리오 비율 시각화")
-    fig, ax = plt.subplots(figsize=(4, 4), dpi=150)
+    st.subheader("📊 포트폴리오 비율")
+    fig, ax = plt.subplots(figsize=(5, 5), dpi=100)
     ax.pie(
         portfolio.values(),
         labels=portfolio.keys(),
         autopct="%1.1f%%",
         startangle=90,
-        colors=cm.Paired.colors,
+        colors=cm.Paired.colors
     )
-    ax.set_title("Allocation", fontsize=14)
+    ax.set_title("포트폴리오 구성", fontsize=14)
     st.pyplot(fig)
 
-    # 백테스트 결과 표시
-    display_backtest_results()
-    
+    # 다음 페이지로 이동
+    if st.button("📄 백테스트 결과 보기"):
+        go_to_page("backtest")
+
     # 돌아가기 버튼
     if st.button("🔙 설문조사로 돌아가기"):
         go_to_page("survey")
         
+# 백테스트 결과 페이지
+def backtest_page():
+    st.title("📉 백테스트 결과")
+
+    # 데이터 로드
+    backtest_data = load_backtest_data()
+    if backtest_data.empty:
+        st.error("백테스트 데이터를 불러올 수 없습니다.")
+        return
+
+    # 누적 수익률 그래프
+    st.write("### 누적 수익률")
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(backtest_data["Date"], backtest_data["Cumulative Return"], label="누적 수익률", color="blue")
+    ax.set_title("누적 수익률", fontsize=16)
+    ax.set_xlabel("날짜", fontsize=12)
+    ax.set_ylabel("수익률 (%)", fontsize=12)
+    ax.legend(fontsize=12)
+    st.pyplot(fig)
+
+    # MDD 그래프
+    st.write("### MDD (Maximum Drawdown)")
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(backtest_data["Date"], backtest_data["Drawdown"], label="MDD (최대 손실)", color="red")
+    ax.fill_between(backtest_data["Date"], backtest_data["Drawdown"], color="red", alpha=0.2, label="Drawdown 영역")
+    ax.set_title("MDD (Maximum Drawdown)", fontsize=16)
+    ax.set_xlabel("날짜", fontsize=12)
+    ax.set_ylabel("손실 (%)", fontsize=12)
+    ax.legend(fontsize=12)
+    st.pyplot(fig)
+
+    # 돌아가기 버튼
+    if st.button("🔙 포트폴리오로 돌아가기"):
+        go_to_page("portfolio")
+
 # 화면 렌더링
 if st.session_state.page == "survey":
     survey_page()
 elif st.session_state.page == "portfolio":
     portfolio_page()
+elif st.session_state.page == "backtest":
+    backtest_page()
