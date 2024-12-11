@@ -7,6 +7,9 @@ from matplotlib import cm
 if "page" not in st.session_state:
     st.session_state.page = "survey"
 
+current_path = os.getcwd()
+st.write(f"현재 작업 디렉토리: {current_path}")
+
 # 화면 전환 함수
 def go_to_page(page_name):
     st.session_state.page = page_name
