@@ -84,21 +84,39 @@ def display_backtest_results():
         backtest_data["Date"], backtest_data["Cumulative"], 
         label="누적 NAV", color="blue", linewidth=2
     )
-    ax.set_title("누적 NAV", fontsize=16)
-    ax.set_xlabel("날짜", fontsize=12)
+    ax.set_title("Cumulative NAV", fontsize=16)
+    ax.set_xlabel("Date", fontsize=12)
     ax.set_ylabel("NAV (%)", fontsize=12)
     ax.grid(True, linestyle='--', alpha=0.7)
     ax.legend(fontsize=12)
     st.pyplot(fig)
 
-    # MDD 표시
-    st.write("### 최대 손실 (MDD)")
-    mdd = backtest_data["MDD"].min()
+    # MDD 그래프
+    st.write("### MDD (Maximum Drawdown)")
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(
+        backtest_data["Date"], backtest_data["Drawdown"], 
+        label="MDD (최대 손실)", color="red", linewidth=2
+    )
+    ax.fill_between(
+        backtest_data["Date"], backtest_data["Drawdown"], 
+        color="red", alpha=0.2, label="Drawdown 영역"
+    )
+    ax.set_title("MDD (Maximum Drawdown)", fontsize=16)
+    ax.set_xlabel("날짜", fontsize=12)
+    ax.set_ylabel("손실 (%)", fontsize=12)
+    ax.grid(True, linestyle='--', alpha=0.7)
+    ax.legend(fontsize=12)
+    st.pyplot(fig)
+
+    # 최대 낙폭 (MDD) 계산 및 출력
+    mdd = backtest_data["Drawdown"].min()
     st.metric("최대 손실 (MDD)", f"{mdd:.2%}")
 
     # 데이터 테이블
     st.write("### 상세 데이터")
     st.dataframe(backtest_data)
+
     
     # 투자 성향 계산 함수
     def calculate_investment_type(user_goal, user_experience, user_market, user_risk):
