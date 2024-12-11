@@ -30,7 +30,7 @@ def load_backtest_data():
         st.error("백테스트 결과 파일이 존재하지 않습니다.")
         return pd.DataFrame()  # 빈 데이터프레임 반환
     backtest_data = pd.read_csv(file_path)
-    return backtest_data, asset_data
+    return backtest_data
 
 def load_asset_data():
     """Asset 데이터를 로드합니다."""
@@ -39,8 +39,8 @@ def load_asset_data():
         st.error("Asset 결과 파일이 존재하지 않습니다.")
         return pd.DataFrame()  # 빈 데이터프레임 반환
     asset_data = pd.read_csv(file_path)
-    return backtest_data, asset_data
-
+    return asset_data
+    
 # 데이터 로드
 backtest_data = load_backtest_data()
 asset_data = load_asset_data()
