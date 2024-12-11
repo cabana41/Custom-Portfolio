@@ -278,7 +278,7 @@ def portfolio_page():
         startangle=90,
         colors=cm.Paired.colors
     )
-    ax.set_title("포트폴리오 구성", fontsize=14)
+    ax.set_title("Optimal Portfolio", fontsize=14)
     st.pyplot(fig)
 
     # 다음 페이지로 이동
