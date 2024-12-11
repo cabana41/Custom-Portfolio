@@ -210,14 +210,14 @@ def portfolio_page():
     # 포트폴리오 데이터
     portfolio = get_portfolio(risk, horizon)
 
-    # 백테스트 데이터 로드
-    backtest_data = load_backtest_data()
-    if backtest_data.empty:
-        st.error("백테스트 데이터를 불러올 수 없습니다.")
+    # Asset 데이터 로드
+    asset_data = load_asset_data()
+    if asset_data.empty:
+        st.error("Asset 데이터를 불러올 수 없습니다.")
         return
 
     # 기대수익률 및 변동성 매핑
-    asset_data = backtest_data.set_index("Asset")  # Asset 열을 인덱스로 설정
+    asset_data = asset_data.set_index("Asset")  # Asset 열을 인덱스로 설정
     expected_returns = {}
     volatilities = {}
 
@@ -226,7 +226,7 @@ def portfolio_page():
             expected_returns[asset] = asset_data.loc[asset, "ExpectedReturn"]
             volatilities[asset] = asset_data.loc[asset, "Volatility"]
         else:
-            st.warning(f"백테스트 데이터에 {asset} 정보가 없습니다.")
+            st.warning(f"Asset 데이터에 {asset} 정보가 없습니다.")
             expected_returns[asset] = 0  # 기본값 설정
             volatilities[asset] = 0  # 기본값 설정
 
