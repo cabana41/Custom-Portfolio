@@ -21,7 +21,7 @@ def map_risk_level(user_risk):
     }
     return mapping.get(user_risk, "미선택")  # 기본값은 '미선택'
 
-# 백테스트 데이터 로드
+# 데이터 로드
 @st.cache
 def load_backtest_data(risk, horizon):
     """백테스트 데이터를 로드합니다."""
@@ -179,10 +179,8 @@ def get_etf_description():
     """ETF 설명을 반환합니다."""
     return {
         "SPY": "S&P 500 지수를 추종하는 ETF로, 미국 대형주에 투자. 안정성과 성장이 혼합된 포트폴리오의 기본 구성 요소로 적합",
-        "GLD": "금 가격에 직접 투자하는 ETF. 포트폴리오의 헤지(위험 대비) 및 가치 저장 수단으로 자주 사용",
         "VNQ": "미국 리츠(REITs, 부동산 투자 신탁)에 투자. 부동산 시장의 수익에 접근할 수 있는 방법 제공",
         "PAVE": "미국 기반 인프라 관련 기업에 투자하는 ETF. 장기적인 경제 성장 테마에 적합",
-        "SPTL": "미국 장기 국채를 추종하는 ETF. 안정적인 소득 및 변동성 완화에 도움",
         "SCHD": "미국 고배당 성장 주식에 투자. 안정적 배당 수익과 성장을 목표로 설계",
         "SPYD": "고배당 주식에 투자하는 ETF로, 수익률 중심의 투자자에게 적합",
         "SKYY": "클라우드 컴퓨팅 관련 기업에 투자하는 ETF. 기술 성장 테마에 적합",
@@ -198,12 +196,12 @@ def get_etf_description():
 def get_portfolio(risk, horizon):
     """포트폴리오와 ETF 설명을 함께 반환합니다."""
     portfolios = {
-        ("안정추구형", "6개월"): {"SPY": 20, "IEF": 20, "BIL": 48, "QQQ": 10, "IAU": 2},
-        ("안정추구형", "2년"): {"SPY": 33, "GLD": 42, "VNQ": 0.3, "PAVE": 5.5, "SPTL": 19},
-        ("위험중립형", "6개월"): {"SPY": 40, "IEF": 35, "HYG": 10, "QQQ": 10, "IAU": 5},
-        ("위험중립형", "2년"): {"SPY": 33, "SCHD": 33, "SPYD": 18, "SPTL": 16},
-        ("공격투자형", "6개월"): {"SPY": 25, "IEF": 10, "HYG": 20, "QQQ": 40, "SMH": 5},
-        ("공격투자형", "2년"): {"SPY": 81, "SKYY": 0.6, "SMH": 4.9, "VWO": 4.7, "SPTL": 8.6}
+        ("안정추구형", "6개월"): {"SPY": 28, "IEF": 20, "BIL": 40, "QQQ": 10, "IAU": 2},
+        ("안정추구형", "2년"): {"SPY": 25, "GLD": 5, "SCHD": 20, "SPYD": 15, "IEF": 30},
+        ("위험중립형", "6개월"): {"SPY": 10, "BIL": 40, "HYG": 20, "QQQ": 20, "IAU": 10},
+        ("위험중립형", "2년"): {"SPY": 30, "GLD": 25, "VNQ": 5, "PAVE": 30, "IEF": 10},
+        ("공격투자형", "6개월"): {"SPY": 20, "BIL": 10, "HYG": 20, "QQQ": 40, "SMH": 10},
+        ("공격투자형", "2년"): {"SPY": 30, "SKYY": 5, "SMH": 20, "VWO": 5, "IEF": 40}
     }
     portfolio = portfolios.get((risk, horizon), {"Equity": 50, "Fixed Income": 50})
 
