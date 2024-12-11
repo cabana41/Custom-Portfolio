@@ -249,8 +249,8 @@ def portfolio_page():
             volatilities[asset] = 0  # 기본값 설정
 
     # 포트폴리오 기대수익률 및 변동성 계산
-    portfolio_return = sum(weight * expected_returns[asset] / 100 for asset, weight in portfolio.items())
-    portfolio_volatility = sum(weight * volatilities[asset] / 100 for asset, weight in portfolio.items())
+    portfolio_return = sum(weight * expected_returns[asset] for asset, weight in portfolio.items())
+    portfolio_volatility = sum(weight * volatilities[asset] for asset, weight in portfolio.items())
 
     # 포트폴리오 메타 정보 강조
     st.markdown(f"""
