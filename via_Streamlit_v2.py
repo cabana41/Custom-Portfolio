@@ -61,62 +61,6 @@ def survey_page():
             index=0 if "user_horizon" not in st.session_state else ["", "6개월", "2년"].index(
                 st.session_state.user_horizon)
         )
-
-# 백테스트 데이터 로드 함수
-@st.cache_data
-def load_backtest_data():
-    """CSV에서 백테스트 데이터를 로드합니다."""
-    data = pd.read_csv("portfolio_backtest_result.csv")  # CSV 경로
-    data["Date"] = pd.to_datetime(data["Date"])  # 날짜 포맷 변경
-    return data
-
-# 백테스트 결과 시각화 함수
-def display_backtest_results():
-    st.subheader("📈 백테스트 결과")
-
-    # 데이터 로드
-    backtest_data = load_backtest_data()
-
-    # 누적 수익률 그래프
-    st.write("### 누적 NAV")
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(
-        backtest_data["Date"], backtest_data["Cumulative"], 
-        label="Cumulative NAV", color="blue", linewidth=2
-    )
-    ax.set_title("Cumulative NAV", fontsize=16)
-    ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("NAV (%)", fontsize=12)
-    ax.grid(True, linestyle='--', alpha=0.7)
-    ax.legend(fontsize=12)
-    st.pyplot(fig)
-
-    # MDD 그래프
-    st.write("### MDD (Maximum Drawdown)")
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(
-        backtest_data["Date"], backtest_data["MDD"], 
-        label="MDD", color="red", linewidth=2
-    )
-    ax.fill_between(
-        backtest_data["Date"], backtest_data["MDD"], 
-        color="red", alpha=0.2, label="Drawdown Area"
-    )
-    ax.set_title("MDD (Maximum Drawdown)", fontsize=16)
-    ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("Drawdown (%)", fontsize=12)
-    ax.grid(True, linestyle='--', alpha=0.7)
-    ax.legend(fontsize=12)
-    st.pyplot(fig)
-
-    # 최대 낙폭 (MDD) 계산 및 출력
-    mdd = backtest_data["MDD"].min()
-    st.metric("최대 손실 (MDD)", f"{mdd:.2%}")
-
-    # 데이터 테이블
-    st.write("### 상세 데이터")
-    st.dataframe(backtest_data)
-
     
     # 투자 성향 계산 함수
     def calculate_investment_type(user_goal, user_experience, user_market, user_risk):
@@ -191,6 +135,61 @@ def display_backtest_results():
     if st.session_state.user_risk and st.session_state.user_horizon:
         if st.button("포트폴리오 보기 🚀"):
             go_to_page("portfolio")
+
+# 백테스트 데이터 로드 함수
+@st.cache_data
+def load_backtest_data():
+    """CSV에서 백테스트 데이터를 로드합니다."""
+    data = pd.read_csv("portfolio_backtest_result.csv")  # CSV 경로
+    data["Date"] = pd.to_datetime(data["Date"])  # 날짜 포맷 변경
+    return data
+
+# 백테스트 결과 시각화 함수
+def display_backtest_results():
+    st.subheader("📈 백테스트 결과")
+
+    # 데이터 로드
+    backtest_data = load_backtest_data()
+
+    # 누적 수익률 그래프
+    st.write("### 누적 NAV")
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(
+        backtest_data["Date"], backtest_data["Cumulative"], 
+        label="Cumulative NAV", color="blue", linewidth=2
+    )
+    ax.set_title("Cumulative NAV", fontsize=16)
+    ax.set_xlabel("Date", fontsize=12)
+    ax.set_ylabel("NAV (%)", fontsize=12)
+    ax.grid(True, linestyle='--', alpha=0.7)
+    ax.legend(fontsize=12)
+    st.pyplot(fig)
+
+    # MDD 그래프
+    st.write("### MDD (Maximum Drawdown)")
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(
+        backtest_data["Date"], backtest_data["MDD"], 
+        label="MDD", color="red", linewidth=2
+    )
+    ax.fill_between(
+        backtest_data["Date"], backtest_data["MDD"], 
+        color="red", alpha=0.2, label="Drawdown Area"
+    )
+    ax.set_title("MDD (Maximum Drawdown)", fontsize=16)
+    ax.set_xlabel("Date", fontsize=12)
+    ax.set_ylabel("Drawdown (%)", fontsize=12)
+    ax.grid(True, linestyle='--', alpha=0.7)
+    ax.legend(fontsize=12)
+    st.pyplot(fig)
+
+    # 최대 낙폭 (MDD) 계산 및 출력
+    mdd = backtest_data["MDD"].min()
+    st.metric("최대 손실 (MDD)", f"{mdd:.2%}")
+
+    # 데이터 테이블
+    st.write("### 상세 데이터")
+    st.dataframe(backtest_data)
 
 def get_etf_description():
     """ETF 설명을 반환합니다."""
