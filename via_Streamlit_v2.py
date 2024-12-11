@@ -227,7 +227,7 @@ def portfolio_page():
     portfolio, portfolio_with_desc = get_portfolio(risk, horizon)
 
     # Asset 데이터 로드
-    asset_data = load_asset_data()
+    asset_data = load_asset_data(horizon)
     if asset_data.empty:
         st.error("Asset 데이터를 불러올 수 없습니다.")
         return
@@ -288,9 +288,13 @@ def portfolio_page():
 # 백테스트 결과 페이지
 def backtest_page():
     st.title("📉 백테스트 결과")
+
+    # 사용자 입력값
+    risk = map_risk_level(st.session_state.user_risk)
+    horizon = st.session_state.user_horizon    
     
     # 백테스트 데이터
-    backtest_data = load_backtest_data()
+    backtest_data = load_backtest_data(risk, horizon)
 
     # 누적 수익률 그래프
     st.write("### 누적 수익률")
