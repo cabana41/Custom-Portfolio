@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import os
 from matplotlib import cm
 
 # 초기 화면 설정
@@ -11,14 +10,6 @@ if "page" not in st.session_state:
 # 화면 전환 함수
 def go_to_page(page_name):
     st.session_state.page = page_name
-
-current_path = os.getcwd()
-st.write(f"현재 작업 디렉토리: {current_path}")
-
-current_path = "/mount/src/custom-portfolio/"
-files = os.listdir(current_path)
-st.write(f"현재 디렉토리: {current_path}")
-st.write(f"파일 목록: {files}")
 
 # 리스크 허용 수준을 매핑하는 함수
 def map_risk_level(user_risk):
@@ -75,7 +66,7 @@ def survey_page():
 @st.cache_data
 def load_backtest_data():
     """CSV에서 백테스트 데이터를 로드합니다."""
-    data = pd.read_csv("/mount/src/custom-portfolio/portfolio_backtest_result.csv")  # CSV 경로
+    data = pd.read_csv("portfolio_backtest_result.csv")  # CSV 경로
     data["Date"] = pd.to_datetime(data["Date"])  # 날짜 포맷 변경
     return data
 
