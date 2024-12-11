@@ -1,18 +1,19 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 from matplotlib import cm
 
 # 초기 화면 설정
 if "page" not in st.session_state:
     st.session_state.page = "survey"
 
-current_path = os.getcwd()
-st.write(f"현재 작업 디렉토리: {current_path}")
-
 # 화면 전환 함수
 def go_to_page(page_name):
     st.session_state.page = page_name
+
+current_path = os.getcwd()
+st.write(f"현재 작업 디렉토리: {current_path}")
 
 # 리스크 허용 수준을 매핑하는 함수
 def map_risk_level(user_risk):
