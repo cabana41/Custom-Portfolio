@@ -298,7 +298,7 @@ def backtest_page():
     backtest_data = load_backtest_data(risk, horizon)
 
     # 누적 수익률 그래프
-    st.write("### 누적 수익률")
+    st.write("### 누적 NAV")
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.plot(backtest_data["Date"], backtest_data["NAV"], label="Cumulative NAV", color="blue")
     ax.set_title("Cumulative NAV", fontsize=16)
