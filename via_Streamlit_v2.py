@@ -208,7 +208,7 @@ def portfolio_page():
     horizon = st.session_state.user_horizon
 
     # 포트폴리오 데이터
-    portfolio = get_portfolio(risk, horizon)
+    portfolio, portfolio_with_desc = get_portfolio(risk, horizon)
 
     # Asset 데이터 로드
     asset_data = load_asset_data()
