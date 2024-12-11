@@ -63,7 +63,7 @@ def survey_page():
         )
 
 # 백테스트 데이터 로드 함수
-@st.cache
+@st.cache_data
 def load_backtest_data():
     """CSV에서 백테스트 데이터를 로드합니다."""
     data = pd.read_csv("C:/Users/이승기/Desktop/DATA/Python_project/portfolio_backtest_result.csv")  # CSV 경로
