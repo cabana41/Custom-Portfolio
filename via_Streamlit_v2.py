@@ -283,13 +283,13 @@ def portfolio_page():
     ax.set_title("Optimal Portfolio", fontsize=14)
     st.pyplot(fig)
 
-    # 다음 페이지로 이동 or 돌아가기 버튼
-    with col1:
-        if st.button("📄 백테스트 결과 보기"):
-            go_to_page("backtest")
-    with col2:
-        if st.button("🔙 설문으로 돌아가기"):
-            go_to_page("survey")
+    # 다음 페이지로 이동
+    if st.button("📄 백테스트 결과 보기"):
+        go_to_page("backtest")
+
+    # 돌아가기 버튼
+    if st.button("🔙 설문조사로 돌아가기"):
+        go_to_page("survey")
 
         
 # 백테스트 결과 페이지
