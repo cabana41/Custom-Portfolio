@@ -40,10 +40,6 @@ def load_asset_data():
         return pd.DataFrame()  # 빈 데이터프레임 반환
     asset_data = pd.read_csv(file_path)
     return asset_data
-    
-# 데이터 로드
-backtest_data = load_backtest_data()
-asset_data = load_asset_data()
 
 # 설문조사 화면
 def survey_page():
@@ -206,6 +202,9 @@ def get_portfolio(risk, horizon):
 # 포트폴리오 페이지
 def portfolio_page():
     st.title("📈 추천 포트폴리오")
+    
+    # 프로파일 데이터
+    asset_data = load_asset_data()
 
     # 사용자 입력값
     risk = map_risk_level(st.session_state.user_risk)
@@ -263,6 +262,9 @@ def portfolio_page():
 # 백테스트 결과 페이지
 def backtest_page():
     st.title("📉 백테스트 결과")
+    
+    # 백테스트 데이터
+    backtest_data = load_backtest_data()
 
     # 누적 수익률 그래프
     st.write("### 누적 수익률")
