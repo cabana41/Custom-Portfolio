@@ -214,9 +214,17 @@ def portfolio_page():
     portfolio = get_portfolio(risk, horizon)
 
     # 기대수익률 및 변동성 매핑
-    asset_data = asset_data.set_index("Asset")  # Asset 열을 인덱스로 설정
-    expected_returns = {asset: asset_data.loc[asset, "ExpectedReturn"] for asset in portfolio}
-    volatilities = {asset: asset_data.loc[asset, "Volatility"] for asset in portfolio}
+    expected_returns = {}
+    volatilities = {}
+    
+    for asset in portfolio:
+        if asset in asset_data.index:
+            expected_returns[asset] = asset_data.loc[asset, "ExpectedReturn"]
+            volatilities[asset] = asset_data.loc[asset, "Volatility"]
+        else:
+            st.warning(f"백테스트 데이터에 {asset} 정보가 없습니다.")
+            expected_returns[asset] = 0  # 기본값 설정
+            volatilities[asset] = 0  # 기본값 설정
 
     # 포트폴리오 기대수익률 및 변동성 계산
     portfolio_return = sum(weight * expected_returns[asset] / 100 for asset, weight in portfolio.items())
