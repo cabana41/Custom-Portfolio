@@ -82,7 +82,7 @@ def display_backtest_results():
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.plot(
         backtest_data["Date"], backtest_data["Cumulative"], 
-        label="누적 NAV", color="blue", linewidth=2
+        label="Cumulative NAV", color="blue", linewidth=2
     )
     ax.set_title("Cumulative NAV", fontsize=16)
     ax.set_xlabel("Date", fontsize=12)
@@ -95,22 +95,22 @@ def display_backtest_results():
     st.write("### MDD (Maximum Drawdown)")
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.plot(
-        backtest_data["Date"], backtest_data["Drawdown"], 
-        label="MDD (최대 손실)", color="red", linewidth=2
+        backtest_data["Date"], backtest_data["MDD"], 
+        label="MDD", color="red", linewidth=2
     )
     ax.fill_between(
-        backtest_data["Date"], backtest_data["Drawdown"], 
-        color="red", alpha=0.2, label="Drawdown 영역"
+        backtest_data["Date"], backtest_data["MDD"], 
+        color="red", alpha=0.2, label="Drawdown Area"
     )
     ax.set_title("MDD (Maximum Drawdown)", fontsize=16)
-    ax.set_xlabel("날짜", fontsize=12)
-    ax.set_ylabel("손실 (%)", fontsize=12)
+    ax.set_xlabel("Date", fontsize=12)
+    ax.set_ylabel("Drawdown (%)", fontsize=12)
     ax.grid(True, linestyle='--', alpha=0.7)
     ax.legend(fontsize=12)
     st.pyplot(fig)
 
     # 최대 낙폭 (MDD) 계산 및 출력
-    mdd = backtest_data["Drawdown"].min()
+    mdd = backtest_data["MDD"].min()
     st.metric("최대 손실 (MDD)", f"{mdd:.2%}")
 
     # 데이터 테이블
