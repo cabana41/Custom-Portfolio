@@ -23,18 +23,36 @@ def map_risk_level(user_risk):
 
 # 백테스트 데이터 로드
 @st.cache
-def load_backtest_data():
+def load_backtest_data(risk, horizon):
     """백테스트 데이터를 로드합니다."""
-    file_path = "backtest_data.csv"
+    
+    if risk=="안정추구형" and horizon=="6개월":
+        file_path = "back_data_단기_RA.csv"
+    elif risk=="위험중립형" and horizon=="6개월":
+        file_path = "back_data_단기_RN.csv"
+    elif risk=="공격투자형" and horizon=="6개월":
+        file_path = "back_data_단기_RT.csv"
+    elif risk=="안정추구형" and horizon=="2년":
+        file_path = "back_data_장기_RA.csv"
+    elif risk=="위험중립형" and horizon=="2년":
+        file_path = "back_data_장기_RN.csv"
+    else:
+        file_path = "back_data_장기_RT.csv"
+
     if not os.path.exists(file_path):
         st.error("백테스트 결과 파일이 존재하지 않습니다.")
         return pd.DataFrame()  # 빈 데이터프레임 반환
     backtest_data = pd.read_csv(file_path)
     return backtest_data
 
-def load_asset_data():
+def load_asset_data(horizon):
     """Asset 데이터를 로드합니다."""
-    file_path = "asset_data.csv"
+    
+    if horizon=="6개월":
+        file_path = "asset_data_단기.csv"
+    else:
+        file_path = "asset_data_장기.csv"
+
     if not os.path.exists(file_path):
         st.error("Asset 결과 파일이 존재하지 않습니다.")
         return pd.DataFrame()  # 빈 데이터프레임 반환
