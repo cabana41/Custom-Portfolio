@@ -197,9 +197,9 @@ def get_portfolio(risk, horizon):
     """포트폴리오와 ETF 설명을 함께 반환합니다."""
     portfolios = {
         ("안정추구형", "6개월"): {"SPY": 28, "IEF": 20, "BIL": 40, "QQQ": 10, "IAU": 2},
-        ("안정추구형", "2년"): {"SPY": 25, "GLD": 5, "SCHD": 20, "SPYD": 15, "IEF": 30},
+        ("안정추구형", "2년"): {"SPY": 25, "IAU": 5, "SCHD": 20, "SPYD": 15, "IEF": 30},
         ("위험중립형", "6개월"): {"SPY": 10, "BIL": 40, "HYG": 20, "QQQ": 20, "IAU": 10},
-        ("위험중립형", "2년"): {"SPY": 30, "GLD": 25, "VNQ": 5, "PAVE": 30, "IEF": 10},
+        ("위험중립형", "2년"): {"SPY": 30, "IAU": 25, "VNQ": 5, "PAVE": 30, "IEF": 10},
         ("공격투자형", "6개월"): {"SPY": 20, "BIL": 10, "HYG": 20, "QQQ": 40, "SMH": 10},
         ("공격투자형", "2년"): {"SPY": 30, "SKYY": 5, "SMH": 20, "VWO": 5, "IEF": 40}
     }
@@ -249,8 +249,8 @@ def portfolio_page():
             volatilities[asset] = 0  # 기본값 설정
 
     # 포트폴리오 기대수익률 및 변동성 계산
-    portfolio_return = sum(weight * expected_returns[asset] for asset, weight in portfolio.items())
-    portfolio_volatility = sum(weight * volatilities[asset] for asset, weight in portfolio.items())
+    portfolio_return = sum(weight * expected_returns[asset] / 100 for asset, weight in portfolio.items())
+    portfolio_volatility = sum(weight * volatilities[asset] / 100 for asset, weight in portfolio.items())
 
     # 포트폴리오 메타 정보 강조
     st.markdown(f"""
