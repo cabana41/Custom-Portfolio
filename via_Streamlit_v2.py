@@ -93,7 +93,7 @@ def display_backtest_results():
 
     # MDD 표시
     st.write("### 최대 손실 (MDD)")
-    mdd = backtest_data["Drawdown"].min()
+    mdd = backtest_data["MDD"].min()
     st.metric("최대 손실 (MDD)", f"{mdd:.2%}")
 
     # 데이터 테이블
