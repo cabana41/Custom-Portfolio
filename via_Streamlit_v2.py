@@ -337,8 +337,13 @@ def backtest_page():
     st.pyplot(fig)
 
     # 돌아가기 버튼
-    if st.button("🔙 포트폴리오로 돌아가기"):
-        go_to_page("portfolio")
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("🔙 포트폴리오로 돌아가기"):
+            go_to_page("portfolio")
+    with col2:
+        if st.button("🔙 설문으로 돌아가기"):
+            go_to_page("survey")
 
 # 화면 렌더링
 if st.session_state.page == "survey":
