@@ -221,7 +221,8 @@ def portfolio_page():
     expected_returns = {}
     volatilities = {}
 
-    for asset, weight in portfolio.items():
+    assets = list(portfolio.keys())
+    for asset in assets:
         if asset in asset_data.index:
             expected_returns[asset] = asset_data.loc[asset, "ExpectedReturn"]
             volatilities[asset] = asset_data.loc[asset, "Volatility"]
