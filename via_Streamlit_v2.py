@@ -216,7 +216,7 @@ def portfolio_page():
     st.title("📈 추천 포트폴리오")
 
     # 사용자 입력값
-    risk = map_risk_level(st.session_state.user_risk)
+    risk = map_risk_level_by_score(st.session_state.user_risk)
     horizon = st.session_state.user_horizon
 
     # 포트폴리오 데이터
@@ -349,7 +349,7 @@ def backtest_page():
     st.title("📉 백테스트 결과")
 
     # 사용자 입력값
-    risk = map_risk_level(st.session_state.user_risk)
+    risk = map_risk_level_by_score(st.session_state.user_risk)
     horizon = st.session_state.user_horizon    
 
     # 백테스트 데이터 로드
