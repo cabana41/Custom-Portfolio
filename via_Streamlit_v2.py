@@ -47,7 +47,7 @@ def calculate_risk_score(user_goal, user_experience, user_market, user_risk):
     # 시장 변동 대응 가중치
     market_mapping = {
         "자산을 매도하여 손실 최소화": 1,  # 안정적
-        "시장 상황 관망": 2,  # 중립적
+        "시장 상황을 관망": 2,  # 중립적
         "추가 투자를 고려": 3  # 공격적
     }
     score += market_mapping.get(user_market, 0)
@@ -129,8 +129,8 @@ def survey_page():
         )
         st.session_state.user_market = st.selectbox(
             "갑작스러운 시장 변동에 어떻게 대처하시겠습니까?",
-            ["", "자산을 매도하여 손실 최소화", "시장 상황 관망", "추가 투자를 고려"],
-            index=0 if "user_market" not in st.session_state else ["", "자산을 매도하여 손실 최소화", "시장 상황 관망", "추가 투자를 고려"].index(
+            ["", "자산을 매도하여 손실 최소화", "시장 상황을 관망", "추가 투자를 고려"],
+            index=0 if "user_market" not in st.session_state else ["", "자산을 매도하여 손실 최소화", "시장 상황을 관망", "추가 투자를 고려"].index(
                 st.session_state.user_market)
         )
         st.session_state.user_risk = st.selectbox(
