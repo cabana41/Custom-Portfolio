@@ -343,7 +343,6 @@ def portfolio_page():
         )])
         
         fig.update_layout(
-            title='포트폴리오 구성 비율',
             showlegend=False,
             width=800,
             height=500
@@ -351,6 +350,7 @@ def portfolio_page():
         
         return fig
 
+    st.subheader("🍰 포트폴리오 구성 비율")
     # portfolio_page() 함수 내에서 차트 생성 및 표시
     portfolio_pie_chart = create_portfolio_chart(portfolio)
     st.plotly_chart(portfolio_pie_chart, use_container_width=True)
