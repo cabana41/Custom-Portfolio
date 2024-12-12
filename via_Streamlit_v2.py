@@ -388,6 +388,9 @@ def portfolio_page():
     if st.button("🔙 설문조사로 돌아가기"):
         go_to_page("survey")
 
+    # 버튼 아래에 메시지 추가
+    st.markdown("<small>버튼을 더블클릭해주세요</small>", unsafe_allow_html=True)
+
 # 백테스트 결과 페이지
 def backtest_page():
     st.title("📊 백테스트 결과")
@@ -470,13 +473,15 @@ def backtest_page():
     st.plotly_chart(fig2, use_container_width=False) 
 
     # 돌아가기 버튼
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("🔙 포트폴리오로 돌아가기"):
-            go_to_page("portfolio")
-    with col2:
-        if st.button("🔙 설문으로 돌아가기"):
-            go_to_page("survey")
+    if st.button("🔙 추천 포트폴리오로 돌아가기"):
+        go_to_page("portfolio")
+
+    # 돌아가기 버튼
+    if st.button("🔙 설문조사로 돌아가기"):
+        go_to_page("survey")
+
+    # 버튼 아래에 메시지 추가
+    st.markdown("<small>버튼을 더블클릭해주세요</small>", unsafe_allow_html=True)
 
 # 화면 렌더링
 if st.session_state.page == "survey":
