@@ -312,7 +312,7 @@ def portfolio_page():
     html_table = f"""
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <table class="table table-striped table-bordered">
-      {df.to_html()}
+      {portfolio_df.to_html()}
     </table>
     """
     
