@@ -381,10 +381,10 @@ def backtest_page():
     with col2:
         st.metric("최대 낙폭(MDD)", f"{max_drawdown:.2%}")
 
-    fig = go.Figure()
-    
-    # 포트폴리오 라인 추가
-    fig.add_trace(go.Scatter(
+    fig1 = go.Figure()
+    fig2 = go.Figure()
+    # 누적 NAV 그래프 추가
+    fig1.add_trace(go.Scatter(
         x=backtest_data['Date'], 
         y=backtest_data['NAV'], 
         mode='lines', 
@@ -393,7 +393,7 @@ def backtest_page():
     ))
     
     # 레이아웃 설정
-    fig.update_layout(
+    fig1.update_layout(
         title='YTD Performance',
         xaxis_title='Date',
         yaxis_title='NAV',
@@ -401,7 +401,27 @@ def backtest_page():
     )
     
     # Streamlit에 Plotly 차트 렌더링
-    st.plotly_chart(fig, use_container_width=True) 
+    st.plotly_chart(fig1, use_container_width=False) 
+
+    # MDD 그래프 추가
+    fig2.add_trace(go.Scatter(
+        x=backtest_data['Date'], 
+        y=backtest_data['MDD'], 
+        mode='lines', 
+        name='MDD',
+        line=dict(color='red', width=2)
+    ))
+    
+    # 레이아웃 설정
+    fig2.update_layout(
+        title='YTD Performance',
+        xaxis_title='Date',
+        yaxis_title='MDD',
+        hovermode='x unified'
+    )
+    
+    # Streamlit에 Plotly 차트 렌더링
+    st.plotly_chart(fig2, use_container_width=False) 
 
     # MDD 그래프
     st.write("### MDD (Maximum Drawdown)")
