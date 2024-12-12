@@ -304,7 +304,7 @@ def portfolio_page():
         "ETF 이름": [global_etf_mapping.get(asset, "N/A") for asset in portfolio],
         "국내 ETF 이름": [domestic_etf_mapping.get(asset, "N/A") for asset in portfolio],
         "비중 (%)": list(portfolio.values()),
-        "기대  수익률 (%)": [expected_returns[asset] * 100 for asset in portfolio],
+        "기대수익률 (%)": [expected_returns[asset] * 100 for asset in portfolio],
         "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio]
     }
 
@@ -314,7 +314,7 @@ def portfolio_page():
     st.dataframe(
     portfolio_df.style.format({
         "비중 (%)": "{:.2f}%",
-        "기대 수익률 (%)": "{:.2f}%",
+        "기대수익률 (%)": "{:.2f}%",
         "변동성 (%)": "{:.2f}%"
     }).background_gradient(cmap="YlGnBu", subset=["비중 (%)"]),
     use_container_width=True
