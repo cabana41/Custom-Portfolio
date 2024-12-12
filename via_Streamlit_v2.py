@@ -310,9 +310,10 @@ def portfolio_page():
     
     # HTML 테이블로 출력
     html_table = f"""
-    <div style="overflow-x: auto;">
-      {portfolio_df.to_html(index=False, border=0, justify='center')}
-    </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <table class="table table-striped table-bordered">
+      {df.to_html()}
+    </table>
     """
     
     # CSS로 테이블 가로 폭 강제 확장
