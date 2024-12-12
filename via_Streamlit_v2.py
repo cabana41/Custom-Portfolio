@@ -381,23 +381,23 @@ def backtest_page():
     
     # 누적 NAV 그래프
     st.write("### 누적 NAV")
-    fig, ax = plt.subplots(figsize=(5, 3))
+    fig, ax = plt.subplots(figsize=(6, 2))
     ax.plot(backtest_data["Date"], backtest_data["NAV"], label="Cumulative NAV", color="blue")
-    ax.set_title("Cumulative NAV", fontsize=16)
-    ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("NAV", fontsize=12)
-    ax.legend(fontsize=12)
+    ax.set_title("Cumulative NAV", fontsize=14)
+    ax.set_xlabel("Date", fontsize=10)
+    ax.set_ylabel("NAV", fontsize=10)
+    ax.legend(fontsize=8)
     st.pyplot(fig, use_container_width=False)
 
     # MDD 그래프
     st.write("### MDD (Maximum Drawdown)")
-    fig, ax = plt.subplots(figsize=(5, 3))
+    fig, ax = plt.subplots(figsize=(6, 2))
     ax.plot(backtest_data["Date"], backtest_data["MDD"], label="MDD (Maximum Drawdown)", color="red")
     ax.fill_between(backtest_data["Date"], backtest_data["MDD"], color="red", alpha=0.2, label="Drawdown Area")
-    ax.set_title("MDD (Maximum Drawdown)", fontsize=16)
-    ax.set_xlabel("Date", fontsize=12)
-    ax.set_ylabel("Drawdown", fontsize=12)
-    ax.legend(fontsize=12)
+    ax.set_title("MDD (Maximum Drawdown)", fontsize=14)
+    ax.set_xlabel("Date", fontsize=10)
+    ax.set_ylabel("Drawdown", fontsize=10)
+    ax.legend(fontsize=8)
     st.pyplot(fig, use_container_width=False)
 
     # 돌아가기 버튼
