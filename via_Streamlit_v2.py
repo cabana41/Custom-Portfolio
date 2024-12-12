@@ -330,23 +330,23 @@ def portfolio_page():
             st.write(f"**국내 대체 ETF:** {domestic_etf_mapping.get(asset, 'N/A')}")
 
     def create_portfolio_chart(portfolio):
-    labels = list(portfolio.keys())
-    values = list(portfolio.values())
-    
-    fig = go.Figure(data=[go.Pie(
-        labels=labels, 
-        values=values,
-        textinfo='label+percent',
-        insidetextorientation='radial',
-        hole=.3
-    )])
-    
-    fig.update_layout(
-        title='포트폴리오 구성 비율',
-        showlegend=False
-    )
-    
-    return fig
+        labels = list(portfolio.keys())
+        values = list(portfolio.values())
+        
+        fig = go.Figure(data=[go.Pie(
+            labels=labels, 
+            values=values,
+            textinfo='label+percent',
+            insidetextorientation='radial',
+            hole=.3
+        )])
+        
+        fig.update_layout(
+            title='포트폴리오 구성 비율',
+            showlegend=False
+        )
+        
+        return fig
 
     # portfolio_page() 함수 내에서 차트 생성 및 표시
     portfolio_pie_chart = create_portfolio_pie_chart(portfolio)
