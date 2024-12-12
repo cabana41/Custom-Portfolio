@@ -104,42 +104,43 @@ def load_asset_data(horizon):
 # 설문조사 화면
 def survey_page():
     st.title("✨ 맞춤형 포트폴리오 설계")
+    st.subheader("📝 설문조사를 통해 당신의 투자 성향을 알아보세요!")
 
     with st.sidebar:
         st.header("📝 설문조사")
         st.session_state.user_name = st.text_input("이름", st.session_state.get("user_name", ""))
         st.session_state.user_gender = st.selectbox(
-            "성별", ["", "남성", "여성"],
-            index=0 if "user_gender" not in st.session_state else ["", "남성", "여성"].index(st.session_state.user_gender)
+            "성별", ["", "👨 남성", "👩여성"],
+            index=0 if "user_gender" not in st.session_state else ["", "👨 남성", "👩여성"].index(st.session_state.user_gender)
         )
         st.session_state.user_goal = st.selectbox(
             "당신의 투자 목표는 무엇인가요?",
-            ["", "자산 보호", "안정적 수익", "고수익 추구"],
-            index=0 if "user_goal" not in st.session_state else ["", "자산 보호", "안정적 수익", "고수익 추구"].index(
+            ["", "🔒 자산 보호", "💰 안정적 수익", "🚀 고수익 추구"],
+            index=0 if "user_goal" not in st.session_state else ["", "🔒 자산 보호", "💰 안정적 수익", "🚀 고수익 추구"].index(
                 st.session_state.user_goal)
         )
         st.session_state.user_experience = st.selectbox(
             "투자 경험은 얼마나 되십니까?",
-            ["", "전혀 없음", "초보 수준", "경험이 많음"],
-            index=0 if "user_experience" not in st.session_state else ["", "전혀 없음", "초보 수준", "경험이 많음"].index(
+            ["", "❌ 전혀 없음", "👶 초보 수준", "🧑‍💼 경험이 많음"],
+            index=0 if "user_experience" not in st.session_state else ["", "❌ 전혀 없음", "👶 초보 수준", "🧑‍💼 경험이 많음"].index(
                 st.session_state.user_experience)
         )
         st.session_state.user_market = st.selectbox(
             "갑작스러운 시장 변동에 어떻게 대처하시겠습니까?",
-            ["", "자산을 매도하여 손실을 최소화", "시장 상황을 관망", "추가 투자를 고려"],
-            index=0 if "user_market" not in st.session_state else ["", "자산을 매도하여 손실을 최소화", "시장 상황을 관망", "추가 투자를 고려"].index(
+            ["", "📉 자산을 매도하여 손실 최소화", "👀 시장 상황 관망", "💸 추가 투자를 고려"],
+            index=0 if "user_market" not in st.session_state else ["", "📉 자산을 매도하여 손실 최소화", "👀 시장 상황 관망", "💸 추가 투자를 고려"].index(
                 st.session_state.user_market)
         )
         st.session_state.user_risk = st.selectbox(
             "리스크 허용 수준에 대해 평가해주세요.",
-            ["", "리스크를 피하고 싶음", "일부 리스크는 감수 가능", "높은 리스크도 수용 가능"],
-            index=0 if "user_risk" not in st.session_state else ["", "리스크를 피하고 싶음", "일부 리스크는 감수 가능", "높은 리스크도 수용 가능"].index(
+            ["", "🚫 리스크를 피하고 싶음", "⚖️ 일부 리스크 감수 가능", "🔥 높은 리스크 수용 가능"],
+            index=0 if "user_risk" not in st.session_state else ["", "🚫 리스크를 피하고 싶음", "⚖️ 일부 리스크 감수 가능", "🔥 높은 리스크 수용 가능"].index(
                 st.session_state.user_risk)
         )
         st.session_state.user_horizon = st.selectbox(
             "당신이 생각하는 적정 투자기간은 어느정도인가요?",
-            ["", "6개월", "2년"],
-            index=0 if "user_horizon" not in st.session_state else ["", "6개월", "2년"].index(
+            ["", "⏳ 6개월", "📅 2년"],
+            index=0 if "user_horizon" not in st.session_state else ["", "⏳ 6개월", "📅 2년"].index(
                 st.session_state.user_horizon)
         )
 
@@ -165,16 +166,15 @@ def survey_page():
 
     st.subheader("📋 설문조사 결과")
     st.write("아래 결과를 확인해주세요:")
-
     col1, col2, col3 = st.columns(3)
-    col1.metric("이름", st.session_state.user_name or "미입력")
-    col2.metric("투자 성향", investment_type)
-    col3.metric("투자 기간", st.session_state.user_horizon or "미선택")
-
-    if st.session_state.user_risk and st.session_state.user_horizon:
+    col1.metric("이름:", st.session_state.user_name or "**미입력**")
+    col2.metric("투자 성향:", investment_type)
+    col3.metric("투자 기간:", st.session_state.user_horizon or "**미선택**")
+    
+    if (st.session_state.user_risk and st.session_state.user_horizon):
         if st.button("포트폴리오 보기 🚀"):
             go_to_page("portfolio")
-
+            
 def get_etf_description():
     """ETF 설명을 반환합니다."""
     return {
