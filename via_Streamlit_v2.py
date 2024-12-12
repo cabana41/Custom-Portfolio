@@ -187,9 +187,11 @@ def survey_page():
     col2.metric("투자 성향:", investment_type)
     col3.metric("투자 기간:", st.session_state.user_horizon or "**미선택**")
     
-    if (st.session_state.user_risk and st.session_state.user_horizon):
-        if st.button("포트폴리오 보기 🚀"):
+    if st.button("포트폴리오 보기 🚀"):
+        if st.session_state.user_risk and st.session_state.user_horizon:
             go_to_page("portfolio")
+        else:
+            st.warning("모든 설문을 완료해주세요.")
             
 def get_etf_description():
     """ETF 설명을 반환합니다."""
