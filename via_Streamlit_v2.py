@@ -329,7 +329,7 @@ def portfolio_page():
     
     # 파이 차트
     st.subheader("🥧 포트폴리오 구성 비율")
-    fig, ax = plt.subplots(figsize=(6, 4))  # 그림 크기를 줄임
+    fig, ax = plt.subplots(figsize=(4, 2))  # 그림 크기를 줄임
     ax.pie(portfolio.values(), labels=portfolio.keys(), autopct='%1.1f%%', startangle=90)
     ax.axis('equal')
     st.pyplot(fig)
