@@ -110,9 +110,11 @@ def survey_page():
         st.header("📝 설문조사")
         st.session_state.user_name = st.text_input("이름", st.session_state.get("user_name", ""))
         st.session_state.user_gender = st.selectbox(
-            "성별", ["", "👨 남성", "👩 여성"],
-            index=0 if "user_gender" not in st.session_state else ["", "👨 남성", "👩 여성"].index(st.session_state.user_gender)
+        "성별",
+        ["", "👨 남성", "👩 여성"],
+        index=0 if "user_gender" not in st.session_state else ["", "👨 남성", "👩 여성"].index(st.session_state.user_gender)
         )
+
         st.session_state.user_goal = st.selectbox(
             "당신의 투자 목표는 무엇인가요?",
             ["", "🔒 자산 보호", "💰 안정적 수익", "🚀 고수익 추구"],
