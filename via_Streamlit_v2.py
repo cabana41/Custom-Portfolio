@@ -345,8 +345,8 @@ def portfolio_page():
         fig.update_layout(
             title='포트폴리오 구성 비율',
             showlegend=False,
-            width=500,
-            height=400
+            width=800,
+            height=500
         )
         
         return fig
