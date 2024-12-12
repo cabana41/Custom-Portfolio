@@ -278,19 +278,19 @@ def portfolio_page():
     
     # 국내 ETF 매핑 데이터
     domestic_etf_mapping = {
-        "SPY": "KODEX S&P500",
-        "VNQ": "KODEX 미국부동산",
-        "PAVE": "TIGER 미국 인프라",
-        "SCHD": "TIGER 미국 고배당",
-        "SPYD": "KODEX 미국 고배당",
-        "SKYY": "TIGER 글로벌 클라우드",
-        "SMH": "TIGER 미국 필라델피아 반도체",
-        "VWO": "KODEX 신흥시장",
-        "QQQ": "TIGER 나스닥100",
-        "IEF": "KOSEF 미국채 7-10년",
-        "BIL": "KOSEF 미국채 단기",
-        "IAU": "KODEX 금",
-        "HYG": "KODEX 미국 하이일드"
+        "SPY": "KOSEF 미국S&P500(H)",
+        "VNQ": "KODEX 미국부동산리츠(H)",
+        "PAVE": "TIGER 미국AI전력핵심인프라",
+        "SCHD": "TIGER 미국배당다우존스",
+        "SPYD": "KODEX 미국S&P500배당귀족커버드콜",
+        "SKYY": "TIGER 글로벌 클라우드컴퓨팅 INDXX",
+        "SMH": "TIGER 미국 필라델피아 반도체 나스닥",
+        "VWO": "KODEX MSCI EM선물(H)",
+        "QQQ": "KOSEF 미국나스닥100(H)",
+        "IEF": "TIGER 미국채10년선물",
+        "BIL": "-",
+        "IAU": "KODEX 골드선물(H)",
+        "HYG": "KODEX 미국하이일드액티브"
     }
     
     # 포트폴리오 데이터 생성
