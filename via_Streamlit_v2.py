@@ -450,8 +450,8 @@ def backtest_page():
     # MDD 그래프 추가
     fig2.add_trace(go.Scatter(
         x=backtest_data['Date'], 
-        y=backtest_data['MDD'], 
-        mode='lines', 
+        y=backtest_data['Drawdown'], 
+        mode='dash', 
         name='MDD',
         line=dict(color='red', width=2),
         fill='tozeroy',  # 선 아래 영역 색칠
