@@ -30,33 +30,33 @@ def calculate_risk_score(user_goal, user_experience, user_market, user_risk):
 
     # 투자 목표 가중치
     goal_mapping = {
-        "자산 보호": 1,  # 안정적
-        "안정적 수익": 2,  # 중립적
-        "고수익 추구": 3  # 공격적
+        "🔒 자산 보호": 1,  # 안정적
+        "💰 안정적 수익": 2,  # 중립적
+        "🚀 고수익 추구": 3  # 공격적
     }
     score += goal_mapping.get(user_goal, 0)
 
     # 투자 경험 가중치
     experience_mapping = {
-        "전혀 없음": 1,  # 안정적
-        "초보 수준": 2,  # 중립적
-        "경험이 많음": 3  # 공격적
+        "❌ 전혀 없음": 1,  # 안정적
+        "👶 초보 수준": 2,  # 중립적
+        "🧑‍💼 경험이 많음": 3  # 공격적
     }
     score += experience_mapping.get(user_experience, 0)
 
     # 시장 변동 대응 가중치
     market_mapping = {
-        "자산을 매도하여 손실을 최소화": 1,  # 안정적
-        "시장 상황을 관망": 2,  # 중립적
-        "추가 투자를 고려": 3  # 공격적
+        "📉 자산을 매도하여 손실 최소화": 1,  # 안정적
+        "👀 시장 상황 관망": 2,  # 중립적
+        "💸 추가 투자를 고려": 3  # 공격적
     }
     score += market_mapping.get(user_market, 0)
 
     # 리스크 허용 수준 가중치
     risk_mapping = {
-        "리스크를 피하고 싶음": 1,  # 안정적
-        "일부 리스크는 감수 가능": 2,  # 중립적
-        "높은 리스크도 수용 가능": 3  # 공격적
+        "🚫 리스크를 피하고 싶음": 1,  # 안정적
+        "⚖️ 일부 리스크 감수 가능": 2,  # 중립적
+        "🔥 높은 리스크 수용 가능": 3  # 공격적
     }
     score += risk_mapping.get(user_risk, 0)
 
@@ -110,8 +110,8 @@ def survey_page():
         st.header("📝 설문조사")
         st.session_state.user_name = st.text_input("이름", st.session_state.get("user_name", ""))
         st.session_state.user_gender = st.selectbox(
-            "성별", ["", "👨 남성", "👩여성"],
-            index=0 if "user_gender" not in st.session_state else ["", "👨 남성", "👩여성"].index(st.session_state.user_gender)
+            "성별", ["", "👨 남성", "👩 여성"],
+            index=0 if "user_gender" not in st.session_state else ["", "👨 남성", "👩 여성"].index(st.session_state.user_gender)
         )
         st.session_state.user_goal = st.selectbox(
             "당신의 투자 목표는 무엇인가요?",
@@ -139,8 +139,8 @@ def survey_page():
         )
         st.session_state.user_horizon = st.selectbox(
             "당신이 생각하는 적정 투자기간은 어느정도인가요?",
-            ["", "⏳ 6개월", "📅 2년"],
-            index=0 if "user_horizon" not in st.session_state else ["", "⏳ 6개월", "📅 2년"].index(
+            ["", "6개월", "2년"],
+            index=0 if "user_horizon" not in st.session_state else ["", "⏳6개월", "2년"].index(
                 st.session_state.user_horizon)
         )
 
