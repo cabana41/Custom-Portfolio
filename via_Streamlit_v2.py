@@ -391,7 +391,7 @@ def backtest_page():
 
     # MDD 그래프
     st.write("### MDD (Maximum Drawdown)")
-    fig, ax = plt.subplots(figsize=(6, 2))
+    fig, ax = plt.subplots(figsize=(5, 2))
     ax.plot(backtest_data["Date"], backtest_data["MDD"], label="MDD (Maximum Drawdown)", color="red")
     ax.fill_between(backtest_data["Date"], backtest_data["MDD"], color="red", alpha=0.2, label="Drawdown Area")
     ax.set_title("MDD (Maximum Drawdown)", fontsize=14)
