@@ -299,11 +299,12 @@ def portfolio_page():
     # 데이터프레임 생성
     portfolio_data = {
         "자산": list(portfolio.keys()),
+        "ETF 이름": [global_etf_mapping.get(asset, "N/A") for asset in portfolio],
+        "국내 ETF 이름": [domestic_etf_mapping.get(asset, "N/A") for asset in portfolio],
         "비중 (%)": list(portfolio.values()),
-        "기대\n수익률 (%)": [expected_returns[asset] * 100 for asset in portfolio],
+        "기대  수익률 (%)": [expected_returns[asset] * 100 for asset in portfolio],
         "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio],
         "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio],
-        "국내 ETF 이름": [domestic_etf_mapping.get(asset, "N/A") for asset in portfolio]
     }
     portfolio_df = pd.DataFrame(portfolio_data).reset_index(drop=True)
     
