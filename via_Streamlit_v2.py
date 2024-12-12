@@ -342,9 +342,9 @@ def portfolio_page():
     if st.button("🔙 설문조사로 돌아가기"):
         go_to_page("survey")
 
-        
 # 백테스트 결과 페이지
 def backtest_page():
+    st.set_page_config(layout="centered") 
     st.title("📊 백테스트 결과")
 
     total_score = calculate_risk_score(
@@ -391,10 +391,6 @@ def backtest_page():
 
     plt.tight_layout()
     st.pyplot(fig)
-
-    col1, col2 = st.columns(3)
-    
-
 
     # MDD 그래프
     st.write("### MDD (Maximum Drawdown)")
