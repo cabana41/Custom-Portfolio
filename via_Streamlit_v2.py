@@ -56,7 +56,7 @@ def calculate_risk_score(user_goal, user_experience, user_market, user_risk):
     risk_mapping = {
         "리스크를 피하고 싶음": 1,  # 안정적
         "일부 리스크 감수 가능": 2,  # 중립적
-        "높은 리스크 수용 가능": 3  # 공격적
+        "높은 리스크도 수용 가능": 3  # 공격적
     }
     score += risk_mapping.get(user_risk, 0)
 
@@ -135,8 +135,8 @@ def survey_page():
         )
         st.session_state.user_risk = st.selectbox(
             "리스크 허용 수준에 대해 평가해주세요.",
-            ["", "리스크를 피하고 싶음", "일부 리스크 감수 가능", "높은 리스크 수용 가능"],
-            index=0 if "user_risk" not in st.session_state else ["", "리스크를 피하고 싶음", "일부 리스크 감수 가능", "높은 리스크 수용 가능"].index(
+            ["", "리스크를 피하고 싶음", "일부 리스크 감수 가능", "높은 리스크도 수용 가능"],
+            index=0 if "user_risk" not in st.session_state else ["", "리스크를 피하고 싶음", "일부 리스크 감수 가능", "높은 리스크도 수용 가능"].index(
                 st.session_state.user_risk)
         )
         st.session_state.user_horizon = st.selectbox(
