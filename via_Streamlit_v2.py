@@ -380,7 +380,7 @@ def backtest_page():
 
     # 누적 NAV 그래프
     st.write("### 누적 NAV")
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(6, 3))
     ax.plot(backtest_data["Date"], backtest_data["NAV"], label="Cumulative NAV", color="blue")
     ax.set_title("Cumulative NAV", fontsize=16)
     ax.set_xlabel("Date", fontsize=12)
@@ -390,7 +390,7 @@ def backtest_page():
 
     # MDD 그래프
     st.write("### MDD (Maximum Drawdown)")
-    fig, ax = plt.subplots(figsize=(6, 4))
+    fig, ax = plt.subplots(figsize=(6, 3))
     ax.plot(backtest_data["Date"], backtest_data["MDD"], label="MDD (Maximum Drawdown)", color="red")
     ax.fill_between(backtest_data["Date"], backtest_data["MDD"], color="red", alpha=0.2, label="Drawdown Area")
     ax.set_title("MDD (Maximum Drawdown)", fontsize=16)
