@@ -259,16 +259,52 @@ def portfolio_page():
     ### 포트폴리오 변동성: **{portfolio_volatility:.2%}**
     """)
 
-    # 포트폴리오 테이블 생성
+    # 해외 ETF 매핑 데이터
+    global_etf_mapping = {
+        "SPY": "SPDR S&P500",
+        "VNQ": "Vanguard Real Estate Index Fund",
+        "PAVE": "Global X U.S. Infrastructure Development",
+        "SCHD": "Schwab US Dividend Equity",
+        "SPYD": "SPDR Portfolio S&P500 High Dividend",
+        "SKYY": "First Trust Cloud Computing",
+        "SMH": "VanEck Semiconductor",
+        "VWO": "Vanguard FTSE Emerging Markets",
+        "QQQ": "Invesco QQQ Trust, Series1",
+        "IEF": "iShares 7-10 Year Treasury Bond",
+        "BIL": "SPDR Lehman 1-3 Month T-Bill",
+        "IAU": "iShares Gold Trust",
+        "HYG": "iShares iBoxx $ High Yield Corporate Bond"
+    }
+    
+    # 국내 ETF 매핑 데이터
+    domestic_etf_mapping = {
+        "SPY": "KODEX S&P500",
+        "VNQ": "KODEX 미국부동산",
+        "PAVE": "TIGER 미국 인프라",
+        "SCHD": "TIGER 미국 고배당",
+        "SPYD": "KODEX 미국 고배당",
+        "SKYY": "TIGER 글로벌 클라우드",
+        "SMH": "TIGER 미국 필라델피아 반도체",
+        "VWO": "KODEX 신흥시장",
+        "QQQ": "TIGER 나스닥100",
+        "IEF": "KOSEF 미국채 7-10년",
+        "BIL": "KOSEF 미국채 단기",
+        "IAU": "KODEX 금",
+        "HYG": "KODEX 미국 하이일드"
+    }
+    
+    # 포트폴리오 데이터 생성
     portfolio_data = {
-        "자산": list(portfolio.keys()),
+        "티커명": list(portfolio.keys()),
+        "ETF명": [global_etf_mapping.get(asset, "N/A") for asset in portfolio]
         "비중 (%)": list(portfolio.values()),
         "기대수익률 (%)": [expected_returns[asset] * 100 for asset in portfolio],
         "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio],
-        "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio]
+        "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio],
+        "국내 ETF 이름": [domestic_etf_mapping.get(asset, "N/A") for asset in portfolio]
     }
     portfolio_df = pd.DataFrame(portfolio_data)
-    st.dataframe(portfolio_df)
+    st.dataframe(portfolio_df, width=1200)
 
     # 파이 차트
     st.subheader("📊 포트폴리오 비율")
