@@ -332,7 +332,7 @@ def portfolio_page():
     fig, ax = plt.subplots(figsize=(6, 3))  # 그림 크기를 줄임
     ax.pie(portfolio.values(), labels=portfolio.keys(), autopct='%1.1f%%', startangle=90)
     ax.axis('equal')
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=False)
 
     # 다음 페이지로 이동
     if st.button("📄 백테스트 결과 보기"):
