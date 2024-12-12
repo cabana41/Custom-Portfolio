@@ -433,7 +433,7 @@ def backtest_page():
         y=backtest_data['NAV'], 
         mode='lines', 
         name='NAV',
-        line=dict(color='green', width=2)
+        line=dict(color='green', width=1.5)
     ))
     
     # 레이아웃 설정
@@ -450,10 +450,10 @@ def backtest_page():
     # MDD 그래프 추가
     fig2.add_trace(go.Scatter(
         x=backtest_data['Date'], 
-        y=backtest_data['Drawdown'], 
+        y=backtest_data['MDD'], 
         mode='lines', 
         name='MDD',
-        line=dict(color='red', width=2, dash="dash"),
+        line=dict(color='red', width=1.5, dash="dash"),
         fill='tozeroy',  # 선 아래 영역 색칠
         fillcolor='rgba(255, 0, 0, 0.2)'  # 연한 빨간색으로 채우기
     ))
@@ -462,7 +462,7 @@ def backtest_page():
     fig2.update_layout(
         title='MDD (Maximum Drawdown)',
         xaxis_title='Date',
-        yaxis_title='MDD',
+        yaxis_title='Drawdown',
         hovermode='x unified'
     )
     
