@@ -308,24 +308,25 @@ def portfolio_page():
     portfolio_df = pd.DataFrame(portfolio_data).reset_index(drop=True)
     
     # HTML 테이블로 출력
-    html_table = portfolio_df.to_html(index=False, justify='center')
+    html_table = portfolio_df.to_html(index=False, border=0, justify='center')
     
     # CSS로 테이블 가로 폭 강제 확장
     st.markdown(
         f"""
         <style>
         table {{
-            width: 100%;  /* 테이블 가로폭을 100%로 확장 */
-            border-collapse: collapse;
-            margin: auto;
+            width: 100%;              /* 테이블 너비 100% 확장 */
+            border-collapse: collapse; /* 테두리 겹침 방지 */
+            margin: auto;             /* 중앙 정렬 */
         }}
         th, td {{
-            padding: 10px;          /* 셀 내부 여백 */
-            text-align: center;     /* 중앙 정렬 */
-            border: 1px solid #ddd; /* 경계선 */
+            padding: 10px;           /* 셀 여백 */
+            text-align: center;      /* 텍스트 중앙 정렬 */
+            border: 1px solid #ddd;  /* 부드러운 경계선 */
         }}
         th {{
-            background-color: #f2f2f2;
+            background-color: #f9f9f9; /* 헤더 배경색 */
+            font-weight: bold;        /* 헤더 글씨 두껍게 */
         }}
         </style>
         {html_table}
