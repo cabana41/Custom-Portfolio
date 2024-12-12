@@ -323,7 +323,6 @@ def portfolio_page():
             background-color: #f2f2f2;  /* 헤더 배경색 */
         }}
         </style>
-        {html_table}
         """,
         unsafe_allow_html=True
     )
