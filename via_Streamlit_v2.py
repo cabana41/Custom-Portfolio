@@ -433,7 +433,7 @@ def backtest_page():
         y=backtest_data['NAV'], 
         mode='lines', 
         name='NAV',
-        line=dict(color='blue', width=2)
+        line=dict(color='green', width=2)
     ))
     
     # 레이아웃 설정
@@ -453,7 +453,7 @@ def backtest_page():
         y=backtest_data['Drawdown'], 
         mode='dash', 
         name='MDD',
-        line=dict(color='red', width=2),
+        line=dict(color='red', width=2, dash="dash"),
         fill='tozeroy',  # 선 아래 영역 색칠
         fillcolor='rgba(255, 0, 0, 0.2)'  # 연한 빨간색으로 채우기
     ))
