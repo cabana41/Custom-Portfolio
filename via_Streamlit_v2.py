@@ -296,29 +296,24 @@ def portfolio_page():
     st.markdown(
         """
         <style>
-        .streamlit-table th, .streamlit-table td {
-            word-wrap: break-word;  /* 줄바꿈 허용 */
-            white-space: pre-wrap; /* 내용이 넘칠 경우 줄바꿈 */
-            text-align: center;    /* 텍스트 중앙 정렬 */
-            padding: 10px;         /* 셀 여백 추가 */
+        .streamlit-table {
+            width: 100%;  /* 테이블 너비를 100%로 설정 */
         }
         table {
-            border-collapse: collapse; /* 테두리 겹침 방지 */
-            width: 100%;               /* 테이블 폭 채우기 */
+            width: 100%;  /* 모든 테이블 폭을 화면 전체로 확장 */
+            margin: auto; /* 중앙 정렬 */
+            border-collapse: collapse; /* 경계 겹침 방지 */
         }
-        th {
-            background-color: #f2f2f2; /* 헤더 배경색 설정 */
-            color: #333;               /* 헤더 글씨색 */
-            font-weight: bold;         /* 헤더 글씨 두껍게 */
-        }
-        td {
-            background-color: #ffffff; /* 셀 배경색 */
-            border: 1px solid #ddd;    /* 셀 테두리 */
+        th, td {
+            padding: 10px;         /* 셀 여백 */
+            text-align: center;    /* 텍스트 중앙 정렬 */
+            border: 1px solid #ddd; /* 셀 경계 */
         }
         </style>
         """,
         unsafe_allow_html=True
     )
+
     
     # 포트폴리오 데이터 생성
     portfolio_data = {
