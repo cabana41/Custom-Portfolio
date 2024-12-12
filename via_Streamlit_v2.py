@@ -139,15 +139,15 @@ def survey_page():
         else:
             return "공격투자형"
 
-    # 입력 값 확인 및 투자 성향 출력
+    # 입력 값 확인 및 리스크 레벨 결정
     if (
             st.session_state.user_goal and
             st.session_state.user_experience and
             st.session_state.user_market and
             st.session_state.user_risk
     ):
-        # 모든 입력이 완료된 경우 투자 성향 계산
-        investment_type = calculate_investment_type(
+        # 모든 입력값이 있을 경우 점수를 계산
+        total_score = calculate_risk_score(
             st.session_state.user_goal,
             st.session_state.user_experience,
             st.session_state.user_market,
