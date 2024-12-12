@@ -305,8 +305,7 @@ def portfolio_page():
         "국내 ETF 이름": [domestic_etf_mapping.get(asset, "N/A") for asset in portfolio],
         "비중 (%)": list(portfolio.values()),
         "기대  수익률 (%)": [expected_returns[asset] * 100 for asset in portfolio],
-        "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio],
-        "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio],
+        "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio]
     }
 
     st.subheader("📊 추천 포트폴리오 구성")
@@ -330,7 +329,7 @@ def portfolio_page():
     
     # 파이 차트
     st.subheader("🥧 포트폴리오 구성 비율")
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(8, 4))  # 그림 크기를 줄임
     ax.pie(portfolio.values(), labels=portfolio.keys(), autopct='%1.1f%%', startangle=90)
     ax.axis('equal')
     st.pyplot(fig)
@@ -381,7 +380,7 @@ def backtest_page():
 
     # 누적 NAV 그래프
     st.write("### 누적 NAV")
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=(8, 4))
     ax.plot(backtest_data["Date"], backtest_data["NAV"], label="Cumulative NAV", color="blue")
     ax.set_title("Cumulative NAV", fontsize=16)
     ax.set_xlabel("Date", fontsize=12)
@@ -391,7 +390,7 @@ def backtest_page():
 
     # MDD 그래프
     st.write("### MDD (Maximum Drawdown)")
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=(8, 4))
     ax.plot(backtest_data["Date"], backtest_data["MDD"], label="MDD (Maximum Drawdown)", color="red")
     ax.fill_between(backtest_data["Date"], backtest_data["MDD"], color="red", alpha=0.2, label="Drawdown Area")
     ax.set_title("MDD (Maximum Drawdown)", fontsize=16)
