@@ -345,7 +345,7 @@ def portfolio_page():
         
 # 백테스트 결과 페이지
 def backtest_page():
-    st.title("📉 백테스트 결과")
+    st.title("📊 백테스트 결과")
 
     total_score = calculate_risk_score(
     st.session_state.user_goal,
@@ -373,11 +373,11 @@ def backtest_page():
     max_drawdown = backtest_data["MDD"].min()
 
     # 최종 수익률 및 MDD 강조
-    st.markdown(f"""
-    ### YTD 수익률: **{cumulative_return:.2%}**
-    ### 최대 손실 (MDD): **{max_drawdown:.2%}**
-    """)
-
+    with col1:
+        st.metric("누적 수익률", f"{cumulative_return:.2%}")
+    with col2:
+        st.metric("최대 낙폭(MDD)", f"{max_drawdown:.2%}")
+    
     # 누적 NAV 그래프
     st.write("### 누적 NAV")
     fig, ax = plt.subplots(figsize=(6, 3))
@@ -386,7 +386,13 @@ def backtest_page():
     ax.set_xlabel("Date", fontsize=12)
     ax.set_ylabel("NAV", fontsize=12)
     ax.legend(fontsize=12)
+
+    plt.tight_layout()
     st.pyplot(fig)
+
+    col1, col2 = st.columns(3)
+    
+
 
     # MDD 그래프
     st.write("### MDD (Maximum Drawdown)")
