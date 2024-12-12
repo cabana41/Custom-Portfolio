@@ -451,7 +451,7 @@ def backtest_page():
     fig2.add_trace(go.Scatter(
         x=backtest_data['Date'], 
         y=backtest_data['Drawdown'], 
-        mode='line', 
+        mode='lines', 
         name='MDD',
         line=dict(color='red', width=2, dash="dash"),
         fill='tozeroy',  # 선 아래 영역 색칠
