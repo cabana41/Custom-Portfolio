@@ -196,6 +196,9 @@ def survey_page():
             go_to_page("portfolio")
         else:
             st.warning("모든 설문을 완료해주세요.")
+
+    # 버튼 아래에 메시지 추가
+    st.markdown("<small>버튼을 더블클릭해주세요</small>", unsafe_allow_html=True)
             
 def get_etf_description():
     """ETF 설명을 반환합니다."""
@@ -376,7 +379,7 @@ def portfolio_page():
     # portfolio_page() 함수 내에서 차트 생성 및 표시
     portfolio_pie_chart = create_portfolio_chart(portfolio)
     st.plotly_chart(portfolio_pie_chart, use_container_width=True)
-
+    
     # 다음 페이지로 이동
     if st.button("📄 백테스트 결과 보기"):
         go_to_page("backtest")
