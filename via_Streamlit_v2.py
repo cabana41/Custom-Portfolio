@@ -356,8 +356,15 @@ def portfolio_page():
 def backtest_page():
     st.title("📉 백테스트 결과")
 
+    total_score = calculate_risk_score(
+    st.session_state.user_goal,
+    st.session_state.user_experience,
+    st.session_state.user_market,
+    st.session_state.user_risk
+    )
+
     # 사용자 입력값
-    risk = map_risk_level_by_score(st.session_state.user_risk)
+    risk = map_risk_level_by_score(total_score)
     horizon = st.session_state.user_horizon    
 
     # 백테스트 데이터 로드
