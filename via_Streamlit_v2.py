@@ -21,6 +21,44 @@ def map_risk_level_by_score(score):
     else:
         return "공격투자형"
 
+# 투자 성향 점수를 기반으로 리스크 레벨 계산
+def calculate_risk_score(user_goal, user_experience, user_market, user_risk):
+    score = 0
+
+    # 투자 목표 가중치
+    goal_mapping = {
+        "자산 보호": 1,  # 안정적
+        "안정적 수익": 2,  # 중립적
+        "고수익 추구": 3  # 공격적
+    }
+    score += goal_mapping.get(user_goal, 0)
+
+    # 투자 경험 가중치
+    experience_mapping = {
+        "전혀 없음": 1,  # 안정적
+        "초보 수준": 2,  # 중립적
+        "경험이 많음": 3  # 공격적
+    }
+    score += experience_mapping.get(user_experience, 0)
+
+    # 시장 변동 대응 가중치
+    market_mapping = {
+        "자산을 매도하여 손실을 최소화": 1,  # 안정적
+        "시장 상황을 관망": 2,  # 중립적
+        "추가 투자를 고려": 3  # 공격적
+    }
+    score += market_mapping.get(user_market, 0)
+
+    # 리스크 허용 수준 가중치
+    risk_mapping = {
+        "리스크를 피하고 싶음": 1,  # 안정적
+        "일부 리스크는 감수 가능": 2,  # 중립적
+        "높은 리스크도 수용 가능": 3  # 공격적
+    }
+    score += risk_mapping.get(user_risk, 0)
+
+    return score
+
 # 데이터 로드
 @st.cache
 def load_backtest_data(risk, horizon):
@@ -101,44 +139,6 @@ def survey_page():
             index=0 if "user_horizon" not in st.session_state else ["", "6개월", "2년"].index(
                 st.session_state.user_horizon)
         )
-    
-    # 투자 성향 점수를 기반으로 리스크 레벨 계산
-    def calculate_risk_score(user_goal, user_experience, user_market, user_risk):
-        score = 0
-    
-        # 투자 목표 가중치
-        goal_mapping = {
-            "자산 보호": 1,  # 안정적
-            "안정적 수익": 2,  # 중립적
-            "고수익 추구": 3  # 공격적
-        }
-        score += goal_mapping.get(user_goal, 0)
-    
-        # 투자 경험 가중치
-        experience_mapping = {
-            "전혀 없음": 1,  # 안정적
-            "초보 수준": 2,  # 중립적
-            "경험이 많음": 3  # 공격적
-        }
-        score += experience_mapping.get(user_experience, 0)
-    
-        # 시장 변동 대응 가중치
-        market_mapping = {
-            "자산을 매도하여 손실을 최소화": 1,  # 안정적
-            "시장 상황을 관망": 2,  # 중립적
-            "추가 투자를 고려": 3  # 공격적
-        }
-        score += market_mapping.get(user_market, 0)
-    
-        # 리스크 허용 수준 가중치
-        risk_mapping = {
-            "리스크를 피하고 싶음": 1,  # 안정적
-            "일부 리스크는 감수 가능": 2,  # 중립적
-            "높은 리스크도 수용 가능": 3  # 공격적
-        }
-        score += risk_mapping.get(user_risk, 0)
-    
-        return score
 
     # 입력 값 확인 및 리스크 레벨 결정
     if (
