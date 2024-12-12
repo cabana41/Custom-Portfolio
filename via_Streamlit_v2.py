@@ -131,7 +131,7 @@ def survey_page():
     
         return score
         
-    def map_risk_level(score):
+    def map_risk_level_by_score(score):
         if score <= 5:
             return "안정추구형"
         elif score <= 8:
