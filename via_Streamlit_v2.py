@@ -111,8 +111,8 @@ def survey_page():
         st.session_state.user_name = st.text_input("이름", st.session_state.get("user_name", ""))
         st.session_state.user_gender = st.selectbox(
         "성별",
-        ["", "👨 남성", "👩 여성"],
-        index=0 if "user_gender" not in st.session_state else ["", "👨 남성", "👩 여성"].index(st.session_state.user_gender)
+        ["", "남성", "여성"],
+        index=0 if "user_gender" not in st.session_state else ["", "남성", "여성"].index(st.session_state.user_gender)
         )
 
         st.session_state.user_goal = st.selectbox(
