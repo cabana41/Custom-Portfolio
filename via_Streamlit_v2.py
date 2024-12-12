@@ -292,28 +292,6 @@ def portfolio_page():
         "IAU": "KODEX 골드선물(H)",
         "HYG": "KODEX 미국하이일드액티브"
     }
-
-    st.markdown(
-        """
-        <style>
-        .streamlit-table {
-            width: 100%;  /* 테이블 너비를 100%로 설정 */
-        }
-        table {
-            width: 100%;  /* 모든 테이블 폭을 화면 전체로 확장 */
-            margin: auto; /* 중앙 정렬 */
-            border-collapse: collapse; /* 경계 겹침 방지 */
-        }
-        th, td {
-            padding: 10px;         /* 셀 여백 */
-            text-align: center;    /* 텍스트 중앙 정렬 */
-            border: 1px solid #ddd; /* 셀 경계 */
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
     
     # 포트폴리오 데이터 생성
     portfolio_data = {
@@ -327,7 +305,30 @@ def portfolio_page():
     }
     portfolio_df = pd.DataFrame(portfolio_data).reset_index(drop=True)
     st.dataframe(portfolio_df, use_container_width=True)
+    html_table = portfolio_df.to_html(index=False, justify='center')
 
+    # Streamlit에서 렌더링
+    st.markdown(
+        f"""
+        <style>
+        table {{
+            width: 100%;  /* 테이블 너비 전체 확장 */
+            border-collapse: collapse;
+        }}
+        th, td {{
+            padding: 10px;  /* 셀 여백 */
+            text-align: center;  /* 중앙 정렬 */
+            border: 1px solid #ddd;  /* 경계선 추가 */
+        }}
+        th {{
+            background-color: #f2f2f2;  /* 헤더 배경색 */
+        }}
+        </style>
+        {html_table}
+        """,
+        unsafe_allow_html=True
+    )
+    
     # 파이 차트
     st.subheader("📊 포트폴리오 비율")
     fig, ax = plt.subplots(figsize=(5, 5), dpi=100)
