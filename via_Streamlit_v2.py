@@ -216,8 +216,15 @@ def get_portfolio(risk, horizon):
 def portfolio_page():
     st.title("📈 추천 포트폴리오")
 
+    total_score = calculate_risk_score(
+    st.session_state.user_goal,
+    st.session_state.user_experience,
+    st.session_state.user_market,
+    st.session_state.user_risk
+    )
+
     # 사용자 입력값
-    risk = map_risk_level_by_score(st.session_state.user_risk)
+    risk = map_risk_level_by_score(total_score)
     horizon = st.session_state.user_horizon
 
     # 포트폴리오 데이터
