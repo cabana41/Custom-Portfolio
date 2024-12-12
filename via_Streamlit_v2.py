@@ -103,8 +103,22 @@ def load_asset_data(horizon):
 
 # 설문조사 화면
 def survey_page():
+    st.markdown("""
+    <style>
+    .stSelectbox, .stTextInput {
+        background-color: #f0f2f6;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .stButton>button {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 8px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.title("✨ 맞춤형 포트폴리오 설계")
-    st.subheader("📝 설문조사를 통해 당신의 투자 성향을 알아보세요!")
 
     with st.sidebar:
         st.header("📝 설문조사")
