@@ -349,7 +349,7 @@ def portfolio_page():
         return fig
 
     # portfolio_page() 함수 내에서 차트 생성 및 표시
-    portfolio_pie_chart = create_portfolio_pie_chart(portfolio)
+    portfolio_pie_chart = create_portfolio_chart(portfolio)
     st.plotly_chart(portfolio_pie_chart, use_container_width=True)
     
     '''# 파이 차트
