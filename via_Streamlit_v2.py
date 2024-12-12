@@ -325,8 +325,8 @@ def portfolio_page():
         "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio],
         "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio]
     }
-    portfolio_df = pd.DataFrame(portfolio_data)
-    st.table(portfolio_df)
+    portfolio_df = pd.DataFrame(portfolio_data).reset_index(drop=True)
+    st.dataframe(portfolio_df, use_container_width=True)
 
     # 파이 차트
     st.subheader("📊 포트폴리오 비율")
