@@ -296,7 +296,7 @@ def portfolio_page():
     # 포트폴리오 데이터 생성
     portfolio_data = {
         "티커명": list(portfolio.keys()),
-        "ETF명": [global_etf_mapping.get(asset, "N/A") for asset in portfolio]
+        "ETF명": [global_etf_mapping.get(asset, "N/A") for asset in portfolio],
         "비중 (%)": list(portfolio.values()),
         "기대수익률 (%)": [expected_returns[asset] * 100 for asset in portfolio],
         "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio],
