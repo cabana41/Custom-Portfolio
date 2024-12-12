@@ -256,11 +256,13 @@ def portfolio_page():
     portfolio_return = sum(weight * expected_returns[asset] / 100 for asset, weight in portfolio.items())
     portfolio_volatility = sum(weight * volatilities[asset] / 100 for asset, weight in portfolio.items())
 
+    st.set_page_config(layout="wide")
     # 포트폴리오 메타 정보 강조
-    st.markdown(f"""
-    ### 포트폴리오 기대수익률: **{portfolio_return:.2%}**
-    ### 포트폴리오 변동성: **{portfolio_volatility:.2%}**
-    """)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("포트폴리오 기대수익률", f"{portfolio_return:.2%}")
+    with col2:
+        st.metric("포트폴리오 변동성", f"{portfolio_volatility:.2%}")
 
     # 해외 ETF 매핑 데이터
     global_etf_mapping = {
@@ -306,30 +308,31 @@ def portfolio_page():
         "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio],
         "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio],
     }
+
+    st.subheader("📊 추천 포트폴리오 구성")
     portfolio_df = pd.DataFrame(portfolio_data).reset_index(drop=True)
     
-    # HTML 테이블로 출력
-    html_table = f"""
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <table class="table table-striped table-bordered">
-      {portfolio_df.to_html()}
-    </table>
-    """
-    
-    # CSS로 테이블 가로 폭 강제 확장
-    st.markdown(html_table, unsafe_allow_html=True)
+    st.dataframe(
+    portfolio_df.style.format({
+        "비중 (%)": "{:.2f}%",
+        "기대 수익률 (%)": "{:.2f}%",
+        "변동성 (%)": "{:.2f}%"
+    }).background_gradient(cmap="YlGnBu", subset=["비중 (%)"]),
+    use_container_width=True
+    )
+
+    st.subheader("📚 ETF 상세 설명")
+    for asset, info in portfolio_with_desc.items():
+        with st.expander(f"{asset} - {global_etf_mapping.get(asset, 'N/A')}"):
+            st.write(f"**비중:** {info['비중']}%")
+            st.write(f"**설명:** {info['설명']}")
+            st.write(f"**국내 대체 ETF:** {domestic_etf_mapping.get(asset, 'N/A')}")
     
     # 파이 차트
-    st.subheader("📊 포트폴리오 비율")
-    fig, ax = plt.subplots(figsize=(5, 5), dpi=100)
-    ax.pie(
-        portfolio.values(),
-        labels=portfolio.keys(),
-        autopct="%1.1f%%",
-        startangle=90,
-        colors=cm.Paired.colors
-    )
-    ax.set_title("Optimal Portfolio", fontsize=14)
+    st.subheader("🥧 포트폴리오 구성 비율")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.pie(portfolio.values(), labels=portfolio.keys(), autopct='%1.1f%%', startangle=90)
+    ax.axis('equal')
     st.pyplot(fig)
 
     # 다음 페이지로 이동
