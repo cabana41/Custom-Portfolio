@@ -294,16 +294,30 @@ def portfolio_page():
     }
 
     st.markdown(
-    """
-    <style>
-    .streamlit-table th, .streamlit-table td {
-        word-wrap: break-word;
-        white-space: pre-wrap;
-        text-align: left;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
+        """
+        <style>
+        .streamlit-table th, .streamlit-table td {
+            word-wrap: break-word;  /* 줄바꿈 허용 */
+            white-space: pre-wrap; /* 내용이 넘칠 경우 줄바꿈 */
+            text-align: center;    /* 텍스트 중앙 정렬 */
+            padding: 10px;         /* 셀 여백 추가 */
+        }
+        table {
+            border-collapse: collapse; /* 테두리 겹침 방지 */
+            width: 100%;               /* 테이블 폭 채우기 */
+        }
+        th {
+            background-color: #f2f2f2; /* 헤더 배경색 설정 */
+            color: #333;               /* 헤더 글씨색 */
+            font-weight: bold;         /* 헤더 글씨 두껍게 */
+        }
+        td {
+            background-color: #ffffff; /* 셀 배경색 */
+            border: 1px solid #ddd;    /* 셀 테두리 */
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
     )
     
     # 포트폴리오 데이터 생성
