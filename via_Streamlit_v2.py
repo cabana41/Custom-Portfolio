@@ -373,6 +373,8 @@ def backtest_page():
     max_drawdown = backtest_data["MDD"].min()
 
     # 최종 수익률 및 MDD 강조
+    col1, col2 = st.columns(2)
+    
     with col1:
         st.metric("누적 수익률", f"{cumulative_return:.2%}")
     with col2:
