@@ -381,7 +381,6 @@ def backtest_page():
     with col2:
         st.metric("최대 낙폭(MDD)", f"{max_drawdown:.2%}")
 
-    def create_backtest_chart(backtest_data):
     fig = go.Figure()
     
     # 포트폴리오 라인 추가
