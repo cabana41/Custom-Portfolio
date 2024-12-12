@@ -316,7 +316,7 @@ def portfolio_page():
         "비중": "{:.2f}%",
         "기대수익률": "{:.2f}%",
         "변동성": "{:.2f}%"
-    }).background_gradient(cmap="YlGnBu", subset=["비중 (%)"]),
+    }).background_gradient(cmap="YlGnBu", subset=["비중"]),
     use_container_width=True
     )
 
