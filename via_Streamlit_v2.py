@@ -386,9 +386,9 @@ def backtest_page():
     # 포트폴리오 라인 추가
     fig.add_trace(go.Scatter(
         x=backtest_data['Date'], 
-        y=backtest_data['Portfolio'], 
+        y=backtest_data['NAV'], 
         mode='lines', 
-        name='Portfolio',
+        name='NAV',
         line=dict(color='blue', width=2)
     ))
     
