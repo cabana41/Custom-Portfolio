@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import plotly.express as px
+import plotly.graph_objects as go
 from matplotlib import cm
 
 st.set_page_config(layout="wide")
@@ -378,16 +380,39 @@ def backtest_page():
         st.metric("누적 수익률", f"{cumulative_return:.2%}")
     with col2:
         st.metric("최대 낙폭(MDD)", f"{max_drawdown:.2%}")
+
+    def create_backtest_chart(backtest_data):
+    fig = go.Figure()
     
-    # 누적 NAV 그래프
-    st.write("### 누적 NAV")
+    # 포트폴리오 라인 추가
+    fig.add_trace(go.Scatter(
+        x=backtest_data['Date'], 
+        y=backtest_data['Portfolio'], 
+        mode='lines', 
+        name='Portfolio',
+        line=dict(color='blue', width=2)
+    ))
+    
+    # 레이아웃 설정
+    fig.update_layout(
+        title='YTD Performance',
+        xaxis_title='Date',
+        yaxis_title='NAV',
+        hovermode='x unified'
+    )
+    
+    # Streamlit에 Plotly 차트 렌더링
+    st.plotly_chart(fig, use_container_width=False)
+    
+    '''# 누적 NAV 그래프
+    st.write("### Cumulative NAV")
     fig, ax = plt.subplots(figsize=(6, 2))
     ax.plot(backtest_data["Date"], backtest_data["NAV"], label="Cumulative NAV", color="blue")
     ax.set_title("Cumulative NAV", fontsize=14)
     ax.set_xlabel("Date", fontsize=10)
     ax.set_ylabel("NAV", fontsize=10)
     ax.legend(fontsize=8)
-    st.pyplot(fig, use_container_width=False)
+    st.pyplot(fig, use_container_width=False)'''
 
     # MDD 그래프
     st.write("### MDD (Maximum Drawdown)")
