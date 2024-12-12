@@ -63,7 +63,7 @@ def calculate_risk_score(user_goal, user_experience, user_market, user_risk):
     return score
 
 # 데이터 로드
-@st.cache
+@st.cache_data
 def load_backtest_data(risk, horizon):
     """백테스트 데이터를 로드합니다."""
     
