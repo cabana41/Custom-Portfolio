@@ -305,7 +305,6 @@ def portfolio_page():
     }
     portfolio_df = pd.DataFrame(portfolio_data).reset_index(drop=True)
     st.dataframe(portfolio_df, use_container_width=True)
-    html_table = portfolio_df.to_html(index=False, justify='center')
 
     # Streamlit에서 렌더링
     st.markdown(
