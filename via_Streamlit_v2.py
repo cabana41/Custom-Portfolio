@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import os
 from matplotlib import cm
 
+st.set_page_config(layout="wide")
 # 초기 화면 설정
 if "page" not in st.session_state:
     st.session_state.page = "survey"
@@ -256,7 +257,6 @@ def portfolio_page():
     portfolio_return = sum(weight * expected_returns[asset] / 100 for asset, weight in portfolio.items())
     portfolio_volatility = sum(weight * volatilities[asset] / 100 for asset, weight in portfolio.items())
 
-    st.set_page_config(layout="wide")
     # 포트폴리오 메타 정보 강조
     col1, col2 = st.columns(2)
     with col1:
