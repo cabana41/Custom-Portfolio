@@ -296,36 +296,39 @@ def portfolio_page():
         "HYG": "KODEX 미국하이일드액티브"
     }
     
-    # 포트폴리오 데이터 생성
+    # 데이터프레임 생성
     portfolio_data = {
-        "티커명": list(portfolio.keys()),
-        "ETF명": [global_etf_mapping.get(asset, "N/A") for asset in portfolio],
-        "국내 ETF 이름": [domestic_etf_mapping.get(asset, "N/A") for asset in portfolio],
+        "자산": list(portfolio.keys()),
         "비중 (%)": list(portfolio.values()),
         "기대수익률 (%)": [expected_returns[asset] * 100 for asset in portfolio],
         "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio],
-        "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio]
+        "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio],
+        "국내 ETF 이름": [domestic_etf_mapping.get(asset, "N/A") for asset in portfolio]
     }
     portfolio_df = pd.DataFrame(portfolio_data).reset_index(drop=True)
-    st.dataframe(portfolio_df, width=1500)
-
-    # Streamlit에서 렌더링
+    
+    # HTML 테이블로 출력
+    html_table = portfolio_df.to_html(index=False, justify='center')
+    
+    # CSS로 테이블 가로 폭 강제 확장
     st.markdown(
         f"""
         <style>
         table {{
-            width: 100%;  /* 테이블 너비 전체 확장 */
+            width: 100%;  /* 테이블 가로폭을 100%로 확장 */
             border-collapse: collapse;
+            margin: auto;
         }}
         th, td {{
-            padding: 10px;  /* 셀 여백 */
-            text-align: center;  /* 중앙 정렬 */
-            border: 1px solid #ddd;  /* 경계선 추가 */
+            padding: 10px;          /* 셀 내부 여백 */
+            text-align: center;     /* 중앙 정렬 */
+            border: 1px solid #ddd; /* 경계선 */
         }}
         th {{
-            background-color: #f2f2f2;  /* 헤더 배경색 */
+            background-color: #f2f2f2;
         }}
         </style>
+        {html_table}
         """,
         unsafe_allow_html=True
     )
