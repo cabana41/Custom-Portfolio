@@ -409,12 +409,14 @@ def backtest_page():
         y=backtest_data['MDD'], 
         mode='lines', 
         name='MDD',
-        line=dict(color='red', width=2)
+        line=dict(color='red', width=2),
+        fill='tozeroy',  # 선 아래 영역 색칠
+        fillcolor='rgba(255, 0, 0, 0.2)'  # 연한 빨간색으로 채우기
     ))
     
     # 레이아웃 설정
     fig2.update_layout(
-        title='YTD Performance',
+        title='MDD (Maximum Drawdown)',
         xaxis_title='Date',
         yaxis_title='MDD',
         hovermode='x unified'
@@ -422,17 +424,6 @@ def backtest_page():
     
     # Streamlit에 Plotly 차트 렌더링
     st.plotly_chart(fig2, use_container_width=False) 
-
-    # MDD 그래프
-    st.write("### MDD (Maximum Drawdown)")
-    fig, ax = plt.subplots(figsize=(5, 2))
-    ax.plot(backtest_data["Date"], backtest_data["MDD"], label="MDD (Maximum Drawdown)", color="red")
-    ax.fill_between(backtest_data["Date"], backtest_data["MDD"], color="red", alpha=0.2, label="Drawdown Area")
-    ax.set_title("MDD (Maximum Drawdown)", fontsize=14)
-    ax.set_xlabel("Date", fontsize=10)
-    ax.set_ylabel("Drawdown", fontsize=10)
-    ax.legend(fontsize=8)
-    st.pyplot(fig, use_container_width=False)
 
     # 돌아가기 버튼
     col1, col2 = st.columns(2)
