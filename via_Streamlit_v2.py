@@ -344,7 +344,6 @@ def portfolio_page():
 
 # 백테스트 결과 페이지
 def backtest_page():
-    st.set_page_config(layout="centered") 
     st.title("📊 백테스트 결과")
 
     total_score = calculate_risk_score(
@@ -390,7 +389,7 @@ def backtest_page():
     ax.legend(fontsize=12)
 
     plt.tight_layout()
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=False)
 
     # MDD 그래프
     st.write("### MDD (Maximum Drawdown)")
@@ -401,7 +400,7 @@ def backtest_page():
     ax.set_xlabel("Date", fontsize=12)
     ax.set_ylabel("Drawdown", fontsize=12)
     ax.legend(fontsize=12)
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=False)
 
     # 돌아가기 버튼
     col1, col2 = st.columns(2)
