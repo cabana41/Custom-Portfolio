@@ -189,6 +189,7 @@ def survey_page():
 
     # 다음 페이지로
     if st.button("포트폴리오 보기 🚀"):
+        if investment_type!="?" and st.session_state.user_horizon
         go_to_page("portfolio")
 
     # 버튼 아래에 메시지 추가
