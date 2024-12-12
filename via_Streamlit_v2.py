@@ -186,9 +186,6 @@ def survey_page():
     col1.metric("이름:", st.session_state.user_name or "**미입력**")
     col2.metric("투자 성향:", investment_type)
     col3.metric("투자 기간:", st.session_state.user_horizon or "**미선택**")
-    
-    if "button_clicked" not in st.session_state:
-        st.session_state.button_clicked = False
 
     if st.button("포트폴리오 보기 🚀") or st.session_state.button_clicked:
         st.session_state.button_clicked = True
