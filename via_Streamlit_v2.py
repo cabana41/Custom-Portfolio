@@ -292,19 +292,32 @@ def portfolio_page():
         "IAU": "KODEX 골드선물(H)",
         "HYG": "KODEX 미국하이일드액티브"
     }
+
+    st.markdown(
+    """
+    <style>
+    .streamlit-table th, .streamlit-table td {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        text-align: left;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
     
     # 포트폴리오 데이터 생성
     portfolio_data = {
         "티커명": list(portfolio.keys()),
         "ETF명": [global_etf_mapping.get(asset, "N/A") for asset in portfolio],
+        "국내 ETF 이름": [domestic_etf_mapping.get(asset, "N/A") for asset in portfolio],
         "비중 (%)": list(portfolio.values()),
         "기대수익률 (%)": [expected_returns[asset] * 100 for asset in portfolio],
         "변동성 (%)": [volatilities[asset] * 100 for asset in portfolio],
-        "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio],
-        "국내 ETF 이름": [domestic_etf_mapping.get(asset, "N/A") for asset in portfolio]
+        "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio]
     }
     portfolio_df = pd.DataFrame(portfolio_data)
-    st.dataframe(portfolio_df, width=1200)
+    st.table(portfolio_df)
 
     # 파이 차트
     st.subheader("📊 포트폴리오 비율")
