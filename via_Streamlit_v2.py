@@ -132,12 +132,12 @@ def survey_page():
         return score
         
     def map_risk_level(score):
-    if score <= 5:
-        return "안정추구형"
-    elif score <= 8:
-        return "위험중립형"
-    else:
-        return "공격투자형"
+        if score <= 5:
+            return "안정추구형"
+        elif score <= 8:
+            return "위험중립형"
+        else:
+            return "공격투자형"
 
     # 입력 값 확인 및 투자 성향 출력
     if (
