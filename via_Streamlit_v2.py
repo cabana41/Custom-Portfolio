@@ -401,17 +401,7 @@ def backtest_page():
     )
     
     # Streamlit에 Plotly 차트 렌더링
-    st.plotly_chart(fig, use_container_width=False)
-    
-    '''# 누적 NAV 그래프
-    st.write("### Cumulative NAV")
-    fig, ax = plt.subplots(figsize=(6, 2))
-    ax.plot(backtest_data["Date"], backtest_data["NAV"], label="Cumulative NAV", color="blue")
-    ax.set_title("Cumulative NAV", fontsize=14)
-    ax.set_xlabel("Date", fontsize=10)
-    ax.set_ylabel("NAV", fontsize=10)
-    ax.legend(fontsize=8)
-    st.pyplot(fig, use_container_width=False)'''
+    st.plotly_chart(fig, use_container_width=True) 
 
     # MDD 그래프
     st.write("### MDD (Maximum Drawdown)")
