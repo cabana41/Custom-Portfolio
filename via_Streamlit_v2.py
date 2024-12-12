@@ -328,13 +328,36 @@ def portfolio_page():
             st.write(f"**비중:** {info['비중']}%")
             st.write(f"**설명:** {info['설명']}")
             st.write(f"**국내 대체 ETF:** {domestic_etf_mapping.get(asset, 'N/A')}")
+
+    def create_portfolio_chart(portfolio):
+    labels = list(portfolio.keys())
+    values = list(portfolio.values())
     
-    # 파이 차트
+    fig = go.Figure(data=[go.Pie(
+        labels=labels, 
+        values=values,
+        textinfo='label+percent',
+        insidetextorientation='radial',
+        hole=.3
+    )])
+    
+    fig.update_layout(
+        title='포트폴리오 구성 비율',
+        showlegend=False
+    )
+    
+    return fig
+
+    # portfolio_page() 함수 내에서 차트 생성 및 표시
+    portfolio_pie_chart = create_portfolio_pie_chart(portfolio)
+    st.plotly_chart(portfolio_pie_chart, use_container_width=True)
+    
+    '''# 파이 차트
     st.subheader("🥧 포트폴리오 구성 비율")
     fig, ax = plt.subplots(figsize=(6, 3))  # 그림 크기를 줄임
     ax.pie(portfolio.values(), labels=portfolio.keys(), autopct='%1.1f%%', startangle=90)
     ax.axis('equal')
-    st.pyplot(fig, use_container_width=False)
+    st.pyplot(fig, use_container_width=False)'''
 
     # 다음 페이지로 이동
     if st.button("📄 백테스트 결과 보기"):
