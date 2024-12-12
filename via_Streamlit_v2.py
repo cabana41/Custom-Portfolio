@@ -12,6 +12,15 @@ if "page" not in st.session_state:
 def go_to_page(page_name):
     st.session_state.page = page_name
 
+# 위험성향 스코어링 함수
+def map_risk_level_by_score(score):
+    if score <= 5:
+        return "안정추구형"
+    elif score <= 8:
+        return "위험중립형"
+    else:
+        return "공격투자형"
+
 # 데이터 로드
 @st.cache
 def load_backtest_data(risk, horizon):
@@ -130,14 +139,6 @@ def survey_page():
         score += risk_mapping.get(user_risk, 0)
     
         return score
-        
-    def map_risk_level_by_score(score):
-        if score <= 5:
-            return "안정추구형"
-        elif score <= 8:
-            return "위험중립형"
-        else:
-            return "공격투자형"
 
     # 입력 값 확인 및 리스크 레벨 결정
     if (
