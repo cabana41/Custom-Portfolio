@@ -307,7 +307,7 @@ def portfolio_page():
         "설명": [portfolio_with_desc[asset]["설명"] for asset in portfolio]
     }
     portfolio_df = pd.DataFrame(portfolio_data).reset_index(drop=True)
-    st.dataframe(portfolio_df, use_container_width=True)
+    st.dataframe(portfolio_df, width=1500)
 
     # Streamlit에서 렌더링
     st.markdown(
