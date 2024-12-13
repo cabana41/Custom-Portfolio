@@ -343,6 +343,7 @@ def portfolio_page():
     }).background_gradient(cmap="YlGnBu", subset=["비중"]),
     use_container_width=True
     )
+    st.caption("미국 국고채 1년물은 국내 통안채 1년물로 대체")
 
     st.subheader("📚 ETF 상세 설명")
     for asset, info in portfolio_with_desc.items():
