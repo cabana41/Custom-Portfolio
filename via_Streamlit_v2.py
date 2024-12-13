@@ -317,7 +317,7 @@ def portfolio_page():
         "VWO": "KODEX MSCI EM선물(H)",
         "QQQ": "KOSEF 미국나스닥100(H)",
         "IEF": "TIGER 미국채10년선물",
-        "BIL": "-",
+        "BIL": "KOSEF 통안채1년",
         "IAU": "KODEX 골드선물(H)",
         "HYG": "KODEX 미국하이일드액티브"
     }
