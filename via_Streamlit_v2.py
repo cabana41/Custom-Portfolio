@@ -491,7 +491,7 @@ def backtest_page():
         use_container_width=True
     )
 
-    # NAV 그래프 추가
+    # NAV 그래프 (슬라이더 없이 깔끔한 날짜 표시)
     st.subheader("📈 누적 NAV 추세")
     fig1 = go.Figure()
     
@@ -505,28 +505,29 @@ def backtest_page():
         hovertemplate="날짜: %{x}<br>NAV: %{y:.2f}"  # 툴팁 커스터마이징
     ))
     
-    # NAV 그래프 레이아웃 설정
+    # NAV 그래프 레이아웃 설정 (슬라이더 제거, 날짜만 표시)
     fig1.update_layout(
         title='누적 NAV (수익률)',
         xaxis=dict(
             title="날짜",
             showgrid=True,
             zeroline=False,
-            rangeslider=dict(visible=True)  # 아래에 Range Slider 추가
+            tickformat="%Y-%m-%d",  # 날짜 형식 지정
+            tickangle=45,          # 날짜를 비스듬히 표시해 가독성 개선
         ),
         yaxis=dict(
             title="NAV",
             showgrid=True,
             zeroline=False,
         ),
-        hovermode='x unified',  # 축 기준 툴팁 통합
+        hovermode='x unified',
         template="plotly_white",  # 밝은 테마
     )
     
     # Streamlit에 Plotly 차트 렌더링
     st.plotly_chart(fig1, use_container_width=True)
     
-    # MDD 그래프 추가
+    # MDD 그래프 (슬라이더 없이 깔끔한 날짜 표시)
     st.subheader("📉 최대 낙폭(MDD)")
     fig2 = go.Figure()
     
@@ -536,7 +537,7 @@ def backtest_page():
         y=backtest_data['MDD'], 
         mode='lines+markers',
         name='MDD',
-        line=dict(color='red', width=2, dash="dash"),  # 대시 스타일
+        line=dict(color='red', width=2, dash="dash"),
         fill='tozeroy',  # 영역 색칠
         fillcolor='rgba(255, 0, 0, 0.2)',  # 투명 빨간색
         hovertemplate="날짜: %{x}<br>MDD: %{y:.2%}"  # 툴팁 커스터마이징
@@ -549,7 +550,8 @@ def backtest_page():
             title="날짜",
             showgrid=True,
             zeroline=False,
-            rangeslider=dict(visible=True)  # 아래에 Range Slider 추가
+            tickformat="%Y-%m-%d",  # 날짜 형식 지정
+            tickangle=45,          # 날짜를 비스듬히 표시
         ),
         yaxis=dict(
             title="Drawdown",
