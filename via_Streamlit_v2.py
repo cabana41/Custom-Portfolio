@@ -320,7 +320,7 @@ def portfolio_page():
         "IEF": "TIGER 미국채10년선물 (305080)",
         "BIL": "KOSEF 통안채1년 (122260)",
         "IAU": "KODEX 골드선물(H) (132030)",
-        "HYG": "KODEX iShares미국하이일드액티브 (468370)"
+        "HYG": "KODEX iShares미국하이일드액티브 (468380)"
     }
     
     # 데이터프레임 생성
