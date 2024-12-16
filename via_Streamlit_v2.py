@@ -491,29 +491,27 @@ def backtest_page():
         use_container_width=True
     )
 
-    # NAV 그래프 (슬라이더 없이 깔끔한 날짜 표시)
+    # NAV 그래프 (다크 테마)
     st.subheader("📈 누적 NAV 추세")
     fig1 = go.Figure()
     
-    # 누적 수익률 그래프 (NAV)
     fig1.add_trace(go.Scatter(
         x=backtest_data['Date'], 
         y=backtest_data['NAV'], 
-        mode='lines+markers',  # 마커 추가
+        mode='lines+markers',
         name='NAV',
-        line=dict(color='green', width=2),
-        hovertemplate="날짜: %{x}<br>NAV: %{y:.2f}"  # 툴팁 커스터마이징
+        line=dict(color='cyan', width=2),
+        hovertemplate="날짜: %{x}<br>NAV: %{y:.2f}"
     ))
     
-    # NAV 그래프 레이아웃 설정 (슬라이더 제거, 날짜만 표시)
     fig1.update_layout(
         title='누적 NAV (수익률)',
         xaxis=dict(
             title="날짜",
             showgrid=True,
             zeroline=False,
-            tickformat="%Y-%m-%d",  # 날짜 형식 지정
-            tickangle=45,          # 날짜를 비스듬히 표시해 가독성 개선
+            tickformat="%Y-%m-%d",
+            tickangle=45,
         ),
         yaxis=dict(
             title="NAV",
@@ -521,37 +519,34 @@ def backtest_page():
             zeroline=False,
         ),
         hovermode='x unified',
-        template="plotly_white",  # 밝은 테마
+        template="plotly_dark"  # 다크 테마
     )
     
-    # Streamlit에 Plotly 차트 렌더링
     st.plotly_chart(fig1, use_container_width=True)
     
-    # MDD 그래프 (슬라이더 없이 깔끔한 날짜 표시)
+    # MDD 그래프 (다크 테마)
     st.subheader("📉 최대 낙폭(MDD)")
     fig2 = go.Figure()
     
-    # MDD 그래프
     fig2.add_trace(go.Scatter(
         x=backtest_data['Date'], 
         y=backtest_data['MDD'], 
         mode='lines+markers',
         name='MDD',
         line=dict(color='red', width=2, dash="dash"),
-        fill='tozeroy',  # 영역 색칠
-        fillcolor='rgba(255, 0, 0, 0.2)',  # 투명 빨간색
-        hovertemplate="날짜: %{x}<br>MDD: %{y:.2%}"  # 툴팁 커스터마이징
+        fill='tozeroy',
+        fillcolor='rgba(255, 0, 0, 0.2)',
+        hovertemplate="날짜: %{x}<br>MDD: %{y:.2%}"
     ))
     
-    # MDD 그래프 레이아웃 설정
     fig2.update_layout(
         title='MDD (Maximum Drawdown)',
         xaxis=dict(
             title="날짜",
             showgrid=True,
             zeroline=False,
-            tickformat="%Y-%m-%d",  # 날짜 형식 지정
-            tickangle=45,          # 날짜를 비스듬히 표시
+            tickformat="%Y-%m-%d",
+            tickangle=45,
         ),
         yaxis=dict(
             title="Drawdown",
@@ -559,7 +554,7 @@ def backtest_page():
             zeroline=False,
         ),
         hovermode='x unified',
-        template="plotly_white",
+        template="plotly_dark"  # 다크 테마
     )
     
     # Streamlit에 Plotly 차트 렌더링
