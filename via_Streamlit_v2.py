@@ -308,19 +308,19 @@ def portfolio_page():
     
     # 국내 ETF 매핑 데이터
     domestic_etf_mapping = {
-        "SPY": "KOSEF 미국S&P500(H)",
-        "VNQ": "KODEX 미국부동산리츠(H)",
-        "PAVE": "TIGER 미국AI전력핵심인프라",
-        "SCHD": "TIGER 미국배당다우존스",
-        "SPYD": "KODEX 미국S&P500배당귀족커버드콜",
-        "SKYY": "TIGER 글로벌 클라우드컴퓨팅 INDXX",
-        "SMH": "TIGER 미국 필라델피아 반도체 나스닥",
-        "VWO": "KODEX MSCI EM선물(H)",
-        "QQQ": "KOSEF 미국나스닥100(H)",
-        "IEF": "TIGER 미국채10년선물",
-        "BIL": "KOSEF 통안채1년",
-        "IAU": "KODEX 골드선물(H)",
-        "HYG": "KODEX 미국하이일드액티브"
+        "SPY": "KOSEF 미국S&P500(H) (449780)",
+        "VNQ": "KODEX 미국부동산리츠(H) (352560)",
+        "PAVE": "KODEX 미국AI전력핵심인프라 (487230)",
+        "SCHD": "TIGER 미국배당다우존스 (458730)",
+        "SPYD": "KODEX 미국S&P500배당귀족커버드콜(합성H) (276970)",
+        "SKYY": "TIGER 글로벌 클라우드컴퓨팅 INDXX (371450)",
+        "SMH": "TIGER 미국 필라델피아 반도체 나스닥 (381180)",
+        "VWO": "KODEX MSCI EM선물(H) (291890)",
+        "QQQ": "KOSEF 미국나스닥100(H) (453080)",
+        "IEF": "TIGER 미국채10년선물 (305080)",
+        "BIL": "KOSEF 통안채1년 (122260)",
+        "IAU": "KODEX 골드선물(H) (132030)",
+        "HYG": "KODEX iShares미국하이일드액티브 (468370)"
     }
     
     # 데이터프레임 생성
@@ -351,12 +351,13 @@ def portfolio_page():
         with st.expander(f"{asset} - {global_etf_mapping.get(asset, 'N/A')}"):
             st.write(f"**비중:** {info['비중']}%")
             st.write(f"**설명:** {info['설명']}")
-            st.write(f"**국내 대체 ETF:** {domestic_etf_mapping.get(asset, 'N/A')}")
+            domestic_etf = domestic_etf_mapping.get(asset, 'N/A')
+            st.write(f"**국내 대체 ETF:** {domestic_etf}")
             
-            etf_ticker_url = f"https://etfdb.com/etf/{asset}/#etf-ticker-profile"
+            global_etf_ticker_url = f"https://etfdb.com/etf/{asset}/#etf-ticker-profile"
             st.markdown(
             f"""
-            <a href="{etf_ticker_url}" target="_blank" style="text-decoration:none;">
+            <a href="{global_etf_ticker_url}" target="_blank" style="text-decoration:none;">
                 <button style="
                     background-color: #4CAF50;
                     color: white;
@@ -375,6 +376,30 @@ def portfolio_page():
             """,
             unsafe_allow_html=True
         )
+
+            if domestic_etf != 'N/A':
+                domestic_etf_ticker_url = f"https://stock.naver.com/etf/domestic/{domestic_etf[-7:-1]}/total"
+                st.markdown(
+                    f"""
+                    <a href="{domestic_etf_ticker_url}" target="_blank" style="text-decoration:none;">
+                        <button style="
+                            background-color: #008CBA;
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            text-align: center;
+                            text-decoration: none;
+                            display: inline-block;
+                            font-size: 14px;
+                            margin: 4px 2px;
+                            cursor: pointer;
+                            border-radius: 8px;">
+                            {domestic_etf} ETF 상세정보 보러가기
+                        </button>
+                    </a>
+                    """,
+                    unsafe_allow_html=True
+                )
 
     def create_portfolio_chart(portfolio):
         labels = list(portfolio.keys())
