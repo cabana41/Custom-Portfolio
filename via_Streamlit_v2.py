@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import os
 import plotly.express as px
@@ -436,8 +437,8 @@ def backtest_page():
     # 최종 수익률 계산
     initial_nav = backtest_data["NAV"].iloc[0]
     final_nav = backtest_data["NAV"].iloc[-1]
-    cumulative_return = (final_nav - initial_nav) / initial_nav
-
+    cumulative_return = np.log(final_nav / initial_nav) 
+    
     # MDD 계산
     max_drawdown = backtest_data["MDD"].min()
 
@@ -448,6 +449,39 @@ def backtest_page():
         st.metric("누적 수익률", f"{cumulative_return:.2%}")
     with col2:
         st.metric("최대 낙폭(MDD)", f"{max_drawdown:.2%}")
+
+    # 기간별 수익률 계산
+    st.subheader("📅 기간별 수익률")
+    backtest_data['Return'] = np.log(backtest_data['NAV'] / backtest_data['NAV'].shift(1))  # 일간 수익률 계산
+    backtest_data['Date'] = pd.to_datetime(backtest_data['Date'])  # 날짜 형식 변환
+
+    # 기간 설정
+    date_ranges = [
+        ("1개월", -30),
+        ("3개월", -90),
+        ("6개월", -180),
+        ("1년", -365),
+    ]
+
+    period_returns = {}
+    for label, days in date_ranges:
+        try:
+            start_date = backtest_data['Date'].iloc[days]
+            start_nav = backtest_data[backtest_data['Date'] == start_date]['NAV'].iloc[0]
+            period_return = np.log(final_nav / start_nav)
+            period_returns[label] = period_return
+        except IndexError:
+            period_returns[label] = None  # 데이터 부족 시 None으로 처리
+
+    # DataFrame 생성 및 표시
+    period_return_df = pd.DataFrame(
+        [{"기간": period, "수익률": f"{ret:.2%}" if ret is not None else "데이터 부족"} 
+         for period, ret in period_returns.items()]
+    )
+    st.dataframe(
+        period_return_df.style.format({"수익률": "{:.2%}"}).set_caption("기간별 누적 수익률"),
+        use_container_width=True
+    )
 
     fig1 = go.Figure()
     fig2 = go.Figure()
