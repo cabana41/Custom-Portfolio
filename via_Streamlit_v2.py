@@ -463,23 +463,24 @@ def backtest_page():
         ("1년", -365),
     ]
 
-    period_returns = {}
+    period_returns = []
     for label, days in date_ranges:
         try:
-            start_date = backtest_data['Date'].iloc[days]
-            start_nav = backtest_data[backtest_data['Date'] == start_date]['NAV'].iloc[0]
-            period_return = np.log(final_nav / start_nav)
-            period_returns[label] = period_return
+            # 데이터 부족 시 IndexError 방지
+            if len(backtest_data) > abs(days):
+                start_date = backtest_data['Date'].iloc[days]
+                start_nav = backtest_data[backtest_data['Date'] == start_date]['NAV'].iloc[0]
+                period_return = np.log(final_nav / start_nav)  # 로그 수익률 계산
+                period_returns.append({"기간": label, "로그 수익률": f"{period_return:.2%}"})
+            else:
+                period_returns.append({"기간": label, "로그 수익률": "데이터 부족"})
         except IndexError:
-            period_returns[label] = None  # 데이터 부족 시 None으로 처리
-
+            period_returns.append({"기간": label, "로그 수익률": "데이터 부족"})
+    
     # DataFrame 생성 및 표시
-    period_return_df = pd.DataFrame(
-        [{"기간": period, "수익률": f"{ret:.2%}" if ret is not None else 0000} 
-         for period, ret in period_returns.items()]
-    )
+    period_return_df = pd.DataFrame(period_returns)
     st.dataframe(
-        period_return_df.style.format({"수익률": "{:.2%}"}).set_caption("기간별 누적 수익률"),
+        period_return_df.style.format({"로그 수익률": "{:.2%}"}).set_caption("기간별 누적 로그 수익률"),
         use_container_width=True
     )
 
