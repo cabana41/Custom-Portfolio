@@ -466,21 +466,28 @@ def backtest_page():
     period_returns = []
     for label, days in date_ranges:
         try:
-            # 데이터 부족 시 IndexError 방지
-            if len(backtest_data) > abs(days):
+            if len(backtest_data) > abs(days):  # 데이터가 충분히 있는지 확인
                 start_date = backtest_data['Date'].iloc[days]
                 start_nav = backtest_data[backtest_data['Date'] == start_date]['NAV'].iloc[0]
                 period_return = np.log(final_nav / start_nav)  # 로그 수익률 계산
-                period_returns.append({"기간": label, "로그 수익률": f"{period_return:.2%}"})
+                period_returns.append({"기간": label, "로그 수익률": period_return})  # 숫자로 저장
             else:
-                period_returns.append({"기간": label, "로그 수익률": "데이터 부족"})
+                period_returns.append({"기간": label, "로그 수익률": None})  # None으로 저장
         except IndexError:
-            period_returns.append({"기간": label, "로그 수익률": "데이터 부족"})
+            period_returns.append({"기간": label, "로그 수익률": None})  # None으로 저장
     
-    # DataFrame 생성 및 표시
+    # DataFrame 생성
     period_return_df = pd.DataFrame(period_returns)
+    
+    # None 값 처리 및 포맷팅
+    def format_returns(value):
+        if pd.isna(value):  # None 처리
+            return "데이터 부족"
+        return f"{value:.2%}"  # 숫자 값에만 포맷 적용
+    
+    # DataFrame 표시
     st.dataframe(
-        period_return_df.style.format({"로그 수익률": "{:.2%}"}).set_caption("기간별 누적 로그 수익률"),
+        period_return_df.style.format({"로그 수익률": format_returns}).set_caption("기간별 누적 로그 수익률"),
         use_container_width=True
     )
 
