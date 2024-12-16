@@ -353,8 +353,27 @@ def portfolio_page():
             st.write(f"**국내 대체 ETF:** {domestic_etf_mapping.get(asset, 'N/A')}")
             
             etf_ticker_url = f"https://etfdb.com/etf/{asset}/#etf-ticker-profile"
-            if st.button(f"{asset} ETF 상세정보 보기", key=f"btn_{asset}"):
-                st.write(f"[ETF 상세정보 보러가기]({etf_ticker_url})")
+            st.markdown(
+            f"""
+            <a href="{etf_ticker_url}" target="_blank" style="text-decoration:none;">
+                <button style="
+                    background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 14px;
+                    margin: 4px 2px;
+                    cursor: pointer;
+                    border-radius: 8px;">
+                    {asset} ETF 상세정보 보러가기
+                </button>
+            </a>
+            """,
+            unsafe_allow_html=True
+        )
 
     def create_portfolio_chart(portfolio):
         labels = list(portfolio.keys())
