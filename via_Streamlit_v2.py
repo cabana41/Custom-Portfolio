@@ -351,11 +351,10 @@ def portfolio_page():
             st.write(f"**비중:** {info['비중']}%")
             st.write(f"**설명:** {info['설명']}")
             st.write(f"**국내 대체 ETF:** {domestic_etf_mapping.get(asset, 'N/A')}")
-
-    # ETFDB 링크 버튼 생성
-    etf_ticker_url = f"https://etfdb.com/etf/{asset.lower()}/#etf-ticker-profile"
-    if st.button(f"{asset} ETF 상세정보 보기", key=f"btn_{asset}"):
-        st.write(f"[ETF 상세정보 보러가기]({etf_ticker_url})")
+            
+            etf_ticker_url = f"https://etfdb.com/etf/{asset}/#etf-ticker-profile"
+            if st.button(f"{asset} ETF 상세정보 보기", key=f"btn_{asset}"):
+                st.write(f"[ETF 상세정보 보러가기]({etf_ticker_url})")
 
     def create_portfolio_chart(portfolio):
         labels = list(portfolio.keys())
