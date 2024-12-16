@@ -477,7 +477,7 @@ def backtest_page():
             period_returns.append({"기간": label, "기간 수익률": None})  # None으로 저장
     
     # DataFrame 생성
-    period_return_df = pd.DataFrame(period_returns).reset_index(inplace=True)
+    period_return_df = pd.DataFrame(period_returns).reset_index(drop=True)
     
     # None 값 처리 및 포맷팅
     def format_returns(value):
