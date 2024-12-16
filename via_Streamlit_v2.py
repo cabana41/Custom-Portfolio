@@ -470,14 +470,14 @@ def backtest_page():
                 start_date = backtest_data['Date'].iloc[days]
                 start_nav = backtest_data[backtest_data['Date'] == start_date]['NAV'].iloc[0]
                 period_return = np.log(final_nav / start_nav)  # 로그 수익률 계산
-                period_returns.append({"기간": label, "로그 수익률": period_return})  # 숫자로 저장
+                period_returns.append({"기간": label, "기간 수익률": period_return})  # 숫자로 저장
             else:
-                period_returns.append({"기간": label, "로그 수익률": None})  # None으로 저장
+                period_returns.append({"기간": label, "기간 수익률": None})  # None으로 저장
         except IndexError:
-            period_returns.append({"기간": label, "로그 수익률": None})  # None으로 저장
+            period_returns.append({"기간": label, "기간 수익률": None})  # None으로 저장
     
     # DataFrame 생성
-    period_return_df = pd.DataFrame(period_returns)
+    period_return_df = pd.DataFrame(period_returns).reset_index(inplace=True)
     
     # None 값 처리 및 포맷팅
     def format_returns(value):
