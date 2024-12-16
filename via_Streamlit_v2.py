@@ -491,45 +491,73 @@ def backtest_page():
         use_container_width=True
     )
 
+    # NAV 그래프 추가
+    st.subheader("📈 누적 NAV 추세")
     fig1 = go.Figure()
-    fig2 = go.Figure()
-    # 누적 NAV 그래프 추가
+    
+    # 누적 수익률 그래프 (NAV)
     fig1.add_trace(go.Scatter(
         x=backtest_data['Date'], 
         y=backtest_data['NAV'], 
-        mode='lines', 
+        mode='lines+markers',  # 마커 추가
         name='NAV',
-        line=dict(color='green', width=1.5)
+        line=dict(color='green', width=2),
+        hovertemplate="날짜: %{x}<br>NAV: %{y:.2f}"  # 툴팁 커스터마이징
     ))
     
-    # 레이아웃 설정
+    # NAV 그래프 레이아웃 설정
     fig1.update_layout(
-        title='YTD Performance',
-        xaxis_title='Date',
-        yaxis_title='NAV',
-        hovermode='x unified'
+        title='누적 NAV (수익률)',
+        xaxis=dict(
+            title="날짜",
+            showgrid=True,
+            zeroline=False,
+            rangeslider=dict(visible=True)  # 아래에 Range Slider 추가
+        ),
+        yaxis=dict(
+            title="NAV",
+            showgrid=True,
+            zeroline=False,
+        ),
+        hovermode='x unified',  # 축 기준 툴팁 통합
+        template="plotly_white",  # 밝은 테마
     )
     
     # Streamlit에 Plotly 차트 렌더링
-    st.plotly_chart(fig1, use_container_width=False) 
-
+    st.plotly_chart(fig1, use_container_width=True)
+    
     # MDD 그래프 추가
+    st.subheader("📉 최대 낙폭(MDD)")
+    fig2 = go.Figure()
+    
+    # MDD 그래프
     fig2.add_trace(go.Scatter(
         x=backtest_data['Date'], 
         y=backtest_data['MDD'], 
-        mode='lines', 
+        mode='lines+markers',
         name='MDD',
-        line=dict(color='red', width=1.5, dash="dash"),
-        fill='tozeroy',  # 선 아래 영역 색칠
-        fillcolor='rgba(255, 0, 0, 0.2)'  # 연한 빨간색으로 채우기
+        line=dict(color='red', width=2, dash="dash"),  # 대시 스타일
+        fill='tozeroy',  # 영역 색칠
+        fillcolor='rgba(255, 0, 0, 0.2)',  # 투명 빨간색
+        hovertemplate="날짜: %{x}<br>MDD: %{y:.2%}"  # 툴팁 커스터마이징
     ))
     
-    # 레이아웃 설정
+    # MDD 그래프 레이아웃 설정
     fig2.update_layout(
         title='MDD (Maximum Drawdown)',
-        xaxis_title='Date',
-        yaxis_title='Drawdown',
-        hovermode='x unified'
+        xaxis=dict(
+            title="날짜",
+            showgrid=True,
+            zeroline=False,
+            rangeslider=dict(visible=True)  # 아래에 Range Slider 추가
+        ),
+        yaxis=dict(
+            title="Drawdown",
+            showgrid=True,
+            zeroline=False,
+        ),
+        hovermode='x unified',
+        template="plotly_white",
     )
     
     # Streamlit에 Plotly 차트 렌더링
