@@ -378,7 +378,7 @@ def portfolio_page():
         )
 
             if domestic_etf != 'N/A':
-                domestic_etf_ticker_url = f"https://stock.naver.com/etf/domestic/{domestic_etf[-7:-1]}/total"
+                domestic_etf_ticker_url = f"https://finance.naver.com/item/main.naver?code={domestic_etf[-7:-1]}"
                 st.markdown(
                     f"""
                     <a href="{domestic_etf_ticker_url}" target="_blank" style="text-decoration:none;">
