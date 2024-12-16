@@ -500,7 +500,7 @@ def backtest_page():
         y=backtest_data['NAV'], 
         mode='lines+markers',
         name='NAV',
-        line=dict(color='cyan', width=2),
+        line=dict(color='green', width=2),
         hovertemplate="날짜: %{x}<br>NAV: %{y:.2f}"
     ))
     
@@ -519,7 +519,7 @@ def backtest_page():
             zeroline=False,
         ),
         hovermode='x unified',
-        template="plotly_dark"  # 다크 테마
+        template="plotly_white"  # 다크 테마
     )
     
     st.plotly_chart(fig1, use_container_width=True)
@@ -554,7 +554,7 @@ def backtest_page():
             zeroline=False,
         ),
         hovermode='x unified',
-        template="plotly_dark"  # 다크 테마
+        template="plotly_white"  # 다크 테마
     )
     
     # Streamlit에 Plotly 차트 렌더링
