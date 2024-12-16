@@ -487,7 +487,7 @@ def backtest_page():
     
     # DataFrame 표시
     st.dataframe(
-        period_return_df.style.format({"로그 수익률": format_returns}).set_caption("기간별 누적 로그 수익률"),
+        period_return_df.style.format({"기간 수익률": format_returns}).set_caption("기간별 누적 수익률"),
         use_container_width=True
     )
 
