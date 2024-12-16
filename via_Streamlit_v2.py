@@ -475,7 +475,7 @@ def backtest_page():
 
     # DataFrame 생성 및 표시
     period_return_df = pd.DataFrame(
-        [{"기간": period, "수익률": f"{ret:.2%}" if ret is not None else "데이터 부족"} 
+        [{"기간": period, "수익률": f"{ret:.2%}" if ret is not None else 0000} 
          for period, ret in period_returns.items()]
     )
     st.dataframe(
